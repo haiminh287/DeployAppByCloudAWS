@@ -1,0 +1,3 @@
+chmod +x terraform/scripts/setup/aws_conf_setup.sh
+
+ssh-keygen -t rsa -b 2048 -f ubuntu-key

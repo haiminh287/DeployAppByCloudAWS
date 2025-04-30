@@ -1,0 +1,33 @@
+# data.aws_key_pair.data_key:
+data "aws_key_pair" "data_key" {
+    arn                = "arn:aws:ec2:ap-southeast-1:611907361035:key-pair/ubuntu-key"
+    create_time        = "2025-03-24T02:18:44Z"
+    fingerprint        = "e7:f0:59:35:b6:bc:78:65:a2:9f:a0:d9:b1:13:8d:a9"
+    id                 = "key-0d3ec49ba500cb41d"
+    include_public_key = false
+    key_name           = "ubuntu-key"
+    key_pair_id        = "key-0d3ec49ba500cb41d"
+    key_type           = "rsa"
+    public_key         = [90mnull[0m[0m
+    tags               = {}
+}
+
+
+# module.key_pair.aws_key_pair.my_ubuntu_key:
+resource "aws_key_pair" "my_ubuntu_key" {
+    arn             = "arn:aws:ec2:ap-southeast-1:611907361035:key-pair/ubuntu-key"
+    fingerprint     = "e7:f0:59:35:b6:bc:78:65:a2:9f:a0:d9:b1:13:8d:a9"
+    id              = "ubuntu-key"
+    key_name        = "ubuntu-key"
+    key_name_prefix = [90mnull[0m[0m
+    key_pair_id     = "key-0d3ec49ba500cb41d"
+    key_type        = "rsa"
+    public_key      = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCo2dI8AXs4Iq508RKotIZJ84+8UX2pww8qMMXjHg/iGZz8b3r/j6dYcmCfLZIXniWJJ9e+z+SI0sSqfRp8zdOU8Z6tK+cqJP/o3IdGwGH5IJCpvvg7hGhfKMb4+cTo09vU0rGpinbDplHcE3e23A7+er3m0VJ0uL5+Rp31r8l2jyfXhQyckRImAH3FfaiuETKHmgcmKyCIeHGlXQB6UBdXXbbkTM8JsMlDQo9osEuSfPGB4vapR1Yl6cc6QU8Vkf5bHpvSyHinzBYOc8/RMtU7a2Mw5BpRWoVCCPP74+T3fGGoFlCiyqVtJTlk6zhdgIen9CEsIZkk8RPdGQZEmCyP"
+    tags            = {}
+    tags_all        = {}
+}
+
+
+Outputs:
+
+public_key = [90mnull[0m[0m
