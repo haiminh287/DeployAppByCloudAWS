@@ -1,5 +1,9 @@
 terraform/scripts/setup/aws_conf_setup.sh
+
+terraform fmt // định dạng lại file    
+terraform destroy -target=module.rds_mysql.aws_db_instance.mysql 
 ssh-keygen -t rsa -b 4096 -f ubuntu-key
+
 
 chạy ssh-keygen -y -f <pemfile> check
 icacls "ubuntu-key" /inheritance:r

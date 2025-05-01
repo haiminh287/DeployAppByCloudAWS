@@ -135,6 +135,7 @@ resource "aws_lb" "web_lb" {
   load_balancer_type = "application"
   security_groups    = [aws_security_group.lb_sg.id]
   subnets            = [aws_subnet.subnet1.id, aws_subnet.subnet2.id]
+  depends_on = [ aws_internet_gateway.gw ]
 }
 
 resource "aws_lb_target_group" "web_tg" {
@@ -158,7 +159,7 @@ resource "aws_lb_listener" "listener_80" {
   port              = 80
   protocol          = "HTTP"
 
-  default_action {
+  default_action { // Forward to target group để chuyển tiếp traffic đến target group
     type             = "forward"
     target_group_arn = aws_lb_target_group.web_tg.arn
   }
@@ -173,7 +174,7 @@ resource "aws_lb_listener" "listener_8080" {
     type             = "forward"
     target_group_arn = aws_lb_target_group.web_tg_8080.arn
   }
-}
+} 
 
 resource "aws_lb_target_group_attachment" "attach1" {
   target_group_arn = aws_lb_target_group.web_tg.arn
@@ -197,6 +198,25 @@ resource "aws_lb_target_group_attachment" "attach2_8080" {
   target_group_arn = aws_lb_target_group.web_tg_8080.arn
   target_id        = aws_instance.web2.id
   port             = 8080
+}
+
+resource "aws_launch_template" "ec2_launch_template"{ // Tạo launch template cho EC2 instances để có thể tự động scale
+  name_prefix   = "webapp-"
+  image_id      = "ami-0c55b159cbfafe1f0"
+  instance_type = "t2.micro"
+
+  lifecycle { // Đảm bảo rằng launch template được tạo trước khi EC2 instances
+    create_before_destroy = true // Khi cập nhật launch template, Terraform sẽ tạo một cái mới trước khi xóa cái cũ
+  }
+
+  network_interfaces { // Cấu hình network interface cho EC2 instances 
+    associate_public_ip_address = true // Gán public IP cho EC2 instances
+    delete_on_termination       = true // Xóa network interface khi EC2 instances bị xóa
+    device_index                = 0 // Chỉ định network interface đầu tiên
+    subnet_id                   = aws_subnet.subnet1.id // Sử dụng subnet1
+    security_groups             = [aws_security_group.web_sg.id] // Sử dụng security group đã tạo ở trên
+  }
+  
 }
 
 # RDS Subnet Group
