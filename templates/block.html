@@ -1,0 +1,79 @@
+{% extends "layout/base.html" %} {% block content%}
+<table class="table table-striped table-hover">
+  <thead class="table-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Tên Dịch Vụ</th>
+      <th scope="col">Trạng Thái</th>
+      <th scope="col">Thao Tác</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>Host Web No Database</td>
+      {% if host_service %}
+      <td><span class="badge bg-success">Running</span></td>
+      {% else %}
+      <td><span class="badge bg-secondary">Chưa Sử Dụng</span></td>
+      {% endif %}
+      <td>
+        {% if host_service %}
+        <button class="btn btn-primary btn-sm">Load</button>
+        <a
+          href="/blocks/{{block_id}}/services/1"
+          class="btn btn-primary btn-sm ml-4"
+          >Detail</a
+        >
+        {% else %}
+        <a href="/blocks/{{block_id}}/services/1" class="btn btn-primary btn-sm"
+          >Use</a
+        >
+        {% endif %}
+      </td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>Dịch Vụ RDS Tạo Database</td>
+      {% if rds_service %}
+      <td><span class="badge bg-success">Running</span></td>
+      {% else %}
+      <td><span class="badge bg-secondary">Chưa Sử Dụng</span></td>
+      {% endif %}
+
+      <td>
+        {% if rds_service %}
+        <button class="btn btn-primary btn-sm">Load</button>
+
+        <a
+          href="/blocks/{{block_id}}/services/2"
+          class="btn btn-primary btn-sm ml-4"
+          >Detail</a
+        >
+        {% else %}
+        <a href="/blocks/{{block_id}}/services/2" class="btn btn-primary btn-sm"
+          >Use</a
+        >
+        {% endif %}
+      </td>
+    </tr>
+    <tr>
+      <th scope="row">3</th>
+      <td>Dịch Vụ Host AGS</td>
+      <td><span class="badge bg-secondary">Chưa Sử Dụng</span></td>
+      <td>
+        <button class="btn btn-primary btn-sm">Load</button>
+        <a href="/blocks/{{block_id}}/services/3" class="btn btn-primary btn-sm"
+          >Use</a
+        >
+
+        <a
+          href="/blocks/{{block_id}}/services/3"
+          class="btn btn-primary btn-sm ml-4"
+          >Detail</a
+        >
+      </td>
+    </tr>
+  </tbody>
+</table>
+{% endblock %}

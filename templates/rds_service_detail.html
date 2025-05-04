@@ -1,0 +1,54 @@
+{% extends "layout/base.html" %} {% block content %}
+<div class="container mt-5">
+  <h1 class="mb-4">Chi tiết RDS Service (ID: {{ service.id }})</h1>
+  <table class="table table-bordered">
+    <tr>
+      <th>ID</th>
+      <td>{{ service.id }}</td>
+    </tr>
+    <tr>
+      <th>Block ID</th>
+      <td>{{ service.block_id }}</td>
+    </tr>
+    <tr>
+      <th>Service ID</th>
+      <td>{{ service.service_id }}</td>
+    </tr>
+    <tr>
+      <th>URL Host</th>
+      <td>{{ service.url_host or 'N/A' }}</td>
+    </tr>
+    <tr>
+      <th>Port</th>
+      <td>{{ service.port or 'N/A' }}</td>
+    </tr>
+    <tr>
+      <th>Username</th>
+      <td>{{ service.username or 'N/A' }}</td>
+    </tr>
+    <tr>
+      <th>Password</th>
+      <td>{{ service.password or 'N/A' }}</td>
+    </tr>
+    <tr>
+      <th>Database Name</th>
+      <td>{{ service.database_name or 'N/A' }}</td>
+    </tr>
+    <tr>
+      <th>Type Database</th>
+      <td>{{ service.type_database.value }}</td>
+    </tr>
+    <tr>
+      <th>Created At</th>
+      <td>{{ service.created_at.strftime('%d/%m/%Y %H:%M:%S') }}</td>
+    </tr>
+    <tr>
+      <th>Updated At</th>
+      <td>{{ service.updated_at.strftime('%d/%m/%Y %H:%M:%S') }}</td>
+    </tr>
+  </table>
+  <a href="/blocks/{{ service.block_id }}" class="btn btn-secondary"
+    >Quay lại danh sách</a
+  >
+</div>
+{% endblock %}

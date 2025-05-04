@@ -1,0 +1,54 @@
+{% extends "layout/base.html" %} {% block content %}
+<div class="container mt-5">
+  <h1 class="mb-4">Chi tiết Host Service (ID: {{ service.id }})</h1>
+  <table class="table table-bordered">
+    <tr>
+      <th>ID</th>
+      <td>{{ service.id }}</td>
+    </tr>
+    <tr>
+      <th>Block ID</th>
+      <td>{{ service.block_id }}</td>
+    </tr>
+    <tr>
+      <th>Service ID</th>
+      <td>{{ service.service_id }}</td>
+    </tr>
+    <tr>
+      <th>URL Github</th>
+      <td>{{ service.url_github }}</td>
+    </tr>
+    <tr>
+      <th>Script Run</th>
+      <td><pre>{{ service.text_script_run }}</pre></td>
+    </tr>
+    <tr>
+      <th>EC2 Type</th>
+      <td>{{ service.type_ec2.value }}</td>
+    </tr>
+    <tr>
+      <th>VM Type</th>
+      <td>{{ service.vm_type.value }}</td>
+    </tr>
+    <tr>
+      <th>Public IP</th>
+      <td>{{ service.public_ip or 'N/A' }}</td>
+    </tr>
+    <tr>
+      <th>Load Balancer URL</th>
+      <td>{{ service.url_web_load_balancer or 'N/A' }}</td>
+    </tr>
+    <tr>
+      <th>Created At</th>
+      <td>{{ service.created_at.strftime('%d/%m/%Y %H:%M:%S') }}</td>
+    </tr>
+    <tr>
+      <th>Updated At</th>
+      <td>{{ service.updated_at.strftime('%d/%m/%Y %H:%M:%S') }}</td>
+    </tr>
+  </table>
+  <a href="/blocks/{{ service.block_id }}" class="btn btn-secondary"
+    >Quay lại danh sách</a
+  >
+</div>
+{% endblock %}
