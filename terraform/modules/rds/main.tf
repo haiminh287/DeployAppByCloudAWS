@@ -20,6 +20,8 @@ resource "aws_db_instance" "mysql" {
   skip_final_snapshot    = true // Bỏ qua snapshot cuối cùng khi xóa DB để tiết kiệm chi phí
   publicly_accessible    = true // công khai
   multi_az               = false // Chỉ sử dụng 1 AZ
+  db_name = "mydb" // Tên DB same CREATE DATABASE mydb; 
+  
 
   tags = {
     Name = "MyDB"
