@@ -11,4 +11,7 @@ module "rds_clone" {
   password = var.password
   db_subnet_group_name = module.db_subnet_group_clone.detail_infos["name"]
   vpc_security_group_ids = var.vpc_security_group_ids
+  engine = var.engine
+  engine_version = var.engine_version
+  
 }

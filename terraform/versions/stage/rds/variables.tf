@@ -27,3 +27,15 @@ variable "password" {
 variable "vpc_security_group_ids" {
   type = list(string)
 }
+
+variable "engine" {
+  description = "Database engine"
+  type        = string
+  default     = "mysql"
+}
+
+variable "engine_version" {
+  description = "Database engine version"
+  type        = string
+  default     = "8.0"
+}

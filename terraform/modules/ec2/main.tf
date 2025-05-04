@@ -6,7 +6,7 @@ resource "aws_instance" "ec2" {
   vpc_security_group_ids      = var.security_group_ids
   associate_public_ip_address = true # <-- Auto assign public IP
 
-  # user_data = file(var.user_data) # <-- Nếu cần config khi boot
+  user_data = var.user_data
 
   ebs_block_device {
     device_name           = "/dev/sda1"

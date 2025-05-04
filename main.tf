@@ -86,51 +86,12 @@ module "rds_test" {
   vpc_security_group_ids = [module.security_group_test_rds.id]
 }
 
-module "security_group_test_ec2" {
-  source = "./terraform/modules/security-group"
-  sg_name = "sg_02"
+module "host_01" {
+  source = "./terraform/versions/stage/deploy_service/host"
+  instance_name = "test_ec2_01"
+  key_name = "test_key_01"
+  public_key = file("./key_gen_01.pub")
+  sg_name = "test_sg_01"
   vpc_id = module.vpc_template.data["vpc"]["id"]
-  
-  rules = {
-    "ssh" = {
-      from_port = 22
-      to_port = 22
-      protocol = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
-    },
-    "all_icmp_ipv4" = {
-      from_port = -1
-      to_port = -1
-      protocol = "icmp"
-      cidr_blocks = ["0.0.0.0/0"]
-    },
-    "http" = {
-      from_port = 80
-      to_port = 80
-      protocol = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
-    }
-  }
-}
-
-module "ec2_01" {
-  source = "./terraform/versions/stage/ec2"
-
-  public_key = file("./key_gen_01.pub")
-
-  instance_name = "ec2_test_01"
-  key_name = "test_key_gen_01"
   subnet_id = local.public_subnets[0].id
-  security_group_ids = [module.security_group_test_ec2.id]
-}
-
-module "ec2_02" {
-  source = "./terraform/versions/stage/ec2"
-
-  public_key = file("./key_gen_01.pub")
-
-  instance_name = "ec2_test_02"
-  key_name = "test_key_gen_02"
-  subnet_id = local.public_subnets[1].id
-  security_group_ids = [module.security_group_test_ec2.id]
 }
