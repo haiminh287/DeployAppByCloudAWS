@@ -50,48 +50,119 @@ module "nat_gateway_test" {
 }
 
 module "security_group_test_rds" {
-  source = "./terraform/modules/security-group"
+  source  = "./terraform/modules/security-group"
   sg_name = "sg_01"
-  vpc_id = module.vpc_template.data["vpc"]["id"]
-  
+  vpc_id  = module.vpc_template.data["vpc"]["id"]
+
   rules = {
     "ssh" = {
-      from_port = 22
-      to_port = 22
-      protocol = "tcp"
+      from_port   = 22
+      to_port     = 22
+      protocol    = "tcp"
       cidr_blocks = ["0.0.0.0/0"]
     },
     "all_icmp_ipv4" = {
-      from_port = -1
-      to_port = -1
-      protocol = "icmp"
+      from_port   = -1
+      to_port     = -1
+      protocol    = "icmp"
       cidr_blocks = ["0.0.0.0/0"]
     },
     "mysql" = {
-      from_port = 3306
-      to_port = 3306
-      protocol = "tcp"
+      from_port   = 3306
+      to_port     = 3306
+      protocol    = "tcp"
       cidr_blocks = ["0.0.0.0/0"]
     }
   }
 }
 
 module "rds_test" {
-  source = "./terraform/versions/stage/rds"
-  db_name = "mydb"
-  username = "admin"
-  password = "admin0pass"
-  subnet_ids = [for subnet in local.public_subnets : subnet.id]
-  db_subnet_group_name = "subnet_group_test_01"
+  source                 = "./terraform/versions/stage/rds"
+  db_name                = "mydb"
+  username               = "admin"
+  password               = "admin0pass"
+  subnet_ids             = [for subnet in local.public_subnets : subnet.id]
+  db_subnet_group_name   = "subnet_group_test_01"
   vpc_security_group_ids = [module.security_group_test_rds.id]
 }
 
+module "rds_user" {
+  source               = "./terraform/versions/stage/deploy_service/rds"
+  db_name              = "test_mysql_01"
+  db_subnet_group_name = "rds_subnet_group_01"
+  user_name            = "admin"
+  password             = "admin0pass"
+  sg_name              = "rds_security_01"
+  vpc_id               = module.vpc_template.data["vpc"]["id"]
+  subnet_ids           = [for subnet in local.public_subnets : subnet.id]
+  sg_rules = {
+    "mysql" = {
+      from_port   = "3306"
+      to_port     = "3306"
+      protocol    = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+  }
+}
+
 module "host_01" {
-  source = "./terraform/versions/stage/deploy_service/host"
+  source        = "./terraform/versions/stage/deploy_service/host"
   instance_name = "test_ec2_01"
-  key_name = "test_key_01"
-  public_key = file("./key_gen_01.pub")
-  sg_name = "test_sg_01"
-  vpc_id = module.vpc_template.data["vpc"]["id"]
-  subnet_id = local.public_subnets[0].id
+  key_name      = "test_key_01"
+  public_key    = file("./key_gen_01.pub")
+  sg_name       = "test_sg_01"
+  vpc_id        = module.vpc_template.data["vpc"]["id"]
+  subnet_id     = local.public_subnets[0].id
+  user_data     = ""
+}
+
+module "host_02" {
+  source        = "./terraform/versions/stage/deploy_service/host"
+  instance_name = "test_ec2_02"
+  key_name      = "test_key_02"
+  public_key    = file("./key_gen_01.pub")
+  sg_name       = "test_sg_02"
+  vpc_id        = module.vpc_template.data["vpc"]["id"]
+  subnet_id     = local.public_subnets[1].id
+  user_data     = ""
+}
+
+module "lb_deploy" {
+  source               = "./terraform/versions/stage/deploy_service/alb"
+  host_sg_name         = "lb_host_sg"
+  key_name             = "lb_key_pair"
+  instance_name_prefix = "lb_host"
+  public_key           = file("./key_gen_01.pub")
+  user_data            = ""
+
+  host_ports = [80, 443, 3000]
+
+  lb_name           = "lb-test-01"
+  sg_name           = "lb_sg_01"
+  target_group_name = "target-group-01"
+  vpc_id            = module.vpc_template.data["vpc"].id
+  subnet_ids        = [for subnet in local.public_subnets : subnet.id]
+  rules = [
+    {
+      from_port = 80
+      to_port = 80
+      listener_protocol = "tcp"
+      host_protocol = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+    },
+    {
+      from_port = 443
+      to_port = 443
+      listener_protocol = "tcp"
+      host_protocol = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+    },
+    {
+      from_port = 2700
+      to_port = 3000
+      listener_protocol = "tcp"
+      host_protocol = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+  ]
 }
