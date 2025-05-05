@@ -9,3 +9,4 @@ output "data" {
     "db_subnet_group" = module.rds_deploy.data["db_subnet_group"]
   }
 }
+

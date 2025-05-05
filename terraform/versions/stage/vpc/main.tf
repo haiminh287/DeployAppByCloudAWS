@@ -2,6 +2,7 @@ module "vpc_with_full_structure" {
   source = "../../../modules/vpc"
   vpc_name = var.vpc_name
   vpc_cidr = var.vpc_cidr
+
 }
 
 module "i_gateway_clone" {
@@ -69,3 +70,5 @@ resource "aws_route_table_association" "asc_public_subnet" {
   subnet_id      = each.value.id
   route_table_id = module.route_table_public.id
 }
+
+// aws rds describe-db-subnet-groups --db-subnet-group-name subnet_group_test_01 --query "DBSubnetGroups[*].VpcId"

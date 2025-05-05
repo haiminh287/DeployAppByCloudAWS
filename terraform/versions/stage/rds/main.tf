@@ -15,3 +15,8 @@ module "rds_clone" {
   engine_version = var.engine_version
   
 }
+
+# output "endpoint" {
+#   value = module.rds_clone.endpoint
+  
+# }

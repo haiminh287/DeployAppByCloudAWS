@@ -1,0 +1,106 @@
+{
+  "DBInstances": [
+    {
+      "DBInstanceIdentifier": "terraform-20250504155719360200000001",
+      "DBInstanceClass": "db.t3.micro",
+      "Engine": "mysql",
+      "DBInstanceStatus": "available",
+      "MasterUsername": "admin",
+      "DBName": "test_mysql_01",
+      "Endpoint": {
+        "Address": "terraform-20250504155719360200000001.ct826iweg6n5.us-east-1.rds.amazonaws.com",
+        "Port": 3306,
+        "HostedZoneId": "Z2R2ITUGPM61AM"
+      },
+      "AllocatedStorage": 20,
+      "InstanceCreateTime": "2025-05-04T16:00:21.419000+00:00",
+      "PreferredBackupWindow": "09:27-09:57",
+      "BackupRetentionPeriod": 0,
+      "DBSecurityGroups": [],
+      "VpcSecurityGroups": [
+        {
+          "VpcSecurityGroupId": "sg-077878e23526a94c9",
+          "Status": "active"
+        }
+      ],
+      "DBParameterGroups": [
+        {
+          "DBParameterGroupName": "default.mysql8.0",
+          "ParameterApplyStatus": "in-sync"
+        }
+      ],
+      "AvailabilityZone": "us-east-1a",
+      "DBSubnetGroup": {
+        "DBSubnetGroupName": "rds_subnet_group_01",
+        "DBSubnetGroupDescription": "Managed by Terraform",
+        "VpcId": "vpc-0fad1a2895c364829",
+        "SubnetGroupStatus": "Complete",
+        "Subnets": [
+          {
+            "SubnetIdentifier": "subnet-00f2e4ed0c8e7c391",
+            "SubnetAvailabilityZone": {
+              "Name": "us-east-1b"
+            },
+            "SubnetOutpost": {},
+            "SubnetStatus": "Active"
+          },
+          {
+            "SubnetIdentifier": "subnet-0ab26f481dede1192",
+            "SubnetAvailabilityZone": {
+              "Name": "us-east-1a"
+            },
+            "SubnetOutpost": {},
+            "SubnetStatus": "Active"
+          }
+        ]
+      },
+      "PreferredMaintenanceWindow": "sat:03:35-sat:04:05",
+      "PendingModifiedValues": {},
+      "MultiAZ": false,
+      "EngineVersion": "8.0.41",
+      "AutoMinorVersionUpgrade": true,
+      "ReadReplicaDBInstanceIdentifiers": [],
+      "LicenseModel": "general-public-license",
+      "OptionGroupMemberships": [
+        {
+          "OptionGroupName": "default:mysql-8-0",
+          "Status": "in-sync"
+        }
+      ],
+      "PubliclyAccessible": true,
+      "StorageType": "gp2",
+      "DbInstancePort": 0,
+      "StorageEncrypted": false,
+      "DbiResourceId": "db-JVYWCMBIZ4A4MIQTDWNNELT4HU",
+      "CACertificateIdentifier": "rds-ca-rsa2048-g1",
+      "DomainMemberships": [],
+      "CopyTagsToSnapshot": false,
+      "MonitoringInterval": 0,
+      "DBInstanceArn": "arn:aws:rds:us-east-1:344143994509:db:terraform-20250504155719360200000001",
+      "IAMDatabaseAuthenticationEnabled": false,
+      "DatabaseInsightsMode": "standard",
+      "PerformanceInsightsEnabled": false,
+      "DeletionProtection": false,
+      "AssociatedRoles": [],
+      "TagList": [
+        {
+          "Key": "Name",
+          "Value": "test_mysql_01"
+        }
+      ],
+      "CustomerOwnedIpEnabled": false,
+      "ActivityStreamStatus": "stopped",
+      "BackupTarget": "region",
+      "NetworkType": "IPV4",
+      "StorageThroughput": 0,
+      "CertificateDetails": {
+        "CAIdentifier": "rds-ca-rsa2048-g1",
+        "ValidTill": "2026-05-04T15:59:33+00:00"
+      },
+      "DedicatedLogVolume": false,
+      "IsStorageConfigUpgradeAvailable": false,
+      "EngineLifecycleSupport": "open-source-rds-extended-support"
+    }
+  ]
+}
+//
