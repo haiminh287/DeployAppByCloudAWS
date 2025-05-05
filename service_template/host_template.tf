@@ -1,9 +1,11 @@
-module "host_alice" {
-  source = "./terraform/versions/stage/deploy_service/host"
-  instance_name = "test_ec2_01"
-  key_name = "test_key_01"
-  public_key = file("./key_gen_01.pub")
-  sg_name = "test_sg_01"
-  vpc_id = module.vpc_template.data["vpc"]["id"]
-  subnet_id = local.public_subnets[0].id
+module "_2_user_id_2_-_2_block_id_2_-host-_2_service_id_2_" {
+  source = "../terraform/versions/stage/deploy_service/host"
+  # source = "./terraform/versions/stage/deploy_service/host"
+  instance_name = "_2_user_id_2_-_2_block_id_2_-host-_2_service_id_2_-instance"
+  key_name = "_2_user_id_2_-_2_block_id_2_-host-_2_service_id_2_-key_name"
+  public_key = var.public_key
+  sg_name = "_2_user_id_2_-_2_block_id_2_-host-_2_service_id_2_-sg"
+  vpc_id = var.vpc_id
+  subnet_id = var.subnet_id
+  user_data = var.user_data
 }
