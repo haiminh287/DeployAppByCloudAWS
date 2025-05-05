@@ -1,7 +1,9 @@
+# Variables dùng chung cho cả 3 modules
+
 variable "public_key" {
   description = "SSH public key để tạo key pair EC2"
   type        = string
-  default     = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD..." # Thay bằng public key thực tế
+  default     = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD..."
 }
 
 variable "vpc_id" {
@@ -27,68 +29,16 @@ variable "user_data" {
   type        = string
   default     = <<-EOT
     #!/bin/bash
-    echo "Hello from user_data!" > /var/www/html/index.html
+    echo "Hello from Terraform" > /var/www/html/index.html
   EOT
 }
 
-variable "host_instance_name" {
-  description = "Tên instance EC2 cho host"
-  type        = string
-  default     = "demo-user-block-host-service-instance"
-}
-
-variable "host_key_name" {
-  description = "Tên key pair cho EC2 host"
-  type        = string
-  default     = "demo-user-block-host-service-key"
-}
-
-variable "host_sg_name" {
-  description = "Tên security group cho EC2 host"
-  type        = string
-  default     = "demo-user-block-host-service-sg"
-}
-
-variable "lb_host_sg_name" {
-  description = "Tên security group của host do load balancer quản lý"
-  type        = string
-  default     = "demo-user-block-lb-service-host-sg"
-}
-
-variable "lb_key_name" {
-  description = "Tên key pair cho instances do load balancer quản lý"
-  type        = string
-  default     = "demo-user-block-lb-service-key"
-}
-
-variable "lb_instance_name_prefix" {
-  description = "Prefix tên instance do load balancer tạo"
-  type        = string
-  default     = "demo-user-block-lb-service-instance"
-}
+# Chỉ dùng trong module load balancer
 
 variable "host_ports" {
   description = "Các port của host cần expose"
   type        = list(number)
   default     = [80, 443]
-}
-
-variable "lb_name" {
-  description = "Tên của Load Balancer"
-  type        = string
-  default     = "demo-user-block-lb-service"
-}
-
-variable "lb_sg_name" {
-  description = "Tên security group của Load Balancer"
-  type        = string
-  default     = "demo-user-block-lb-service-sg"
-}
-
-variable "target_group_name" {
-  description = "Tên target group của Load Balancer"
-  type        = string
-  default     = "demo-user-block-lb-service-tg"
 }
 
 variable "rules" {
@@ -118,16 +68,12 @@ variable "rules" {
   ]
 }
 
+# Chỉ dùng trong module rds
+
 variable "db_name" {
   description = "Tên database"
   type        = string
   default     = "demo_db"
-}
-
-variable "db_subnet_group_name" {
-  description = "Tên subnet group cho RDS"
-  type        = string
-  default     = "demo-user-block-rds-subnet-group"
 }
 
 variable "user_name" {
@@ -143,10 +89,10 @@ variable "password" {
   default     = "StrongP@ssw0rd123"
 }
 
-variable "rds_sg_name" {
-  description = "Tên security group cho RDS"
+variable "engine" {
+  description = "type database"
   type        = string
-  default     = "demo-user-block-rds-sg"
+  default     = "mysql"
 }
 
 variable "sg_rules" {

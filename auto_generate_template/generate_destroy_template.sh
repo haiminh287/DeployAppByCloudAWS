@@ -6,29 +6,25 @@ OUTPUT_FILE=""
 USER_ID=""
 BLOCK_ID=""
 SERVICE_ID=""
+TFVARS_FILE=""
 
-# # Kiểm tra đủ tham số
-# if [ "$#" -lt 3 ]; then
-#   echo "Usage: $0 <user_id> <block_id> <service_id>"
-#   exit 1
-# fi
-
-while getopts "f:o:u:b:s:" opt; do
+while getopts "f:o:u:b:s:v:" opt; do
   case $opt in
     f) INPUT_FILE="$OPTARG" ;;
     o) OUTPUT_FILE="$OPTARG" ;;
     u) USER_ID="$OPTARG" ;;
     b) BLOCK_ID="$OPTARG" ;;
     s) SERVICE_ID="$OPTARG" ;;
+    v) TFVARS_FILE="$OPTARG" ;;
     \?)
       echo "Usage: $0 -f <input_file> -o <output_file> -u <user_id> -b <block_id> -s <service_id>"
       exit 1 ;;
   esac
 done
 
-if [[ -z "$INPUT_FILE" || -z "$OUTPUT_FILE" || -z "$USER_ID" || -z "$BLOCK_ID" || -z "$SERVICE_ID" ]]; then
+if [[ -z "$INPUT_FILE" || -z "$OUTPUT_FILE" || -z "$USER_ID" || -z "$BLOCK_ID" || -z "$SERVICE_ID" || -z "$TFVARS_FILE" ]]; then
   echo "Missing required arguments."
-  echo "Usage: $0 -f <input_file> -o <output_file> -u <user_id> -b <block_id> -s <service_id>"
+  echo "Usage: $0 -f <input_file> -o <output_file> -u <user_id> -b <block_id> -s <service_id> -v <tfvars_file>"
   exit 1
 fi
 
@@ -39,17 +35,17 @@ sed -e "s/_2_user_id_2_/${USER_ID}/g" \
 
 echo "Generated: $OUTPUT_FILE"
 
-# code run final
+# # code run final
 
 # MODULE_NAME=$(grep -oP 'module "\K[^"]+' "$OUTPUT_FILE")
 # echo "$MODULE_NAME"
 
 # TARGET="module.$MODULE_NAME"
-# tf destroy -target=${TARGET} --auto-approve
+# tf destroy -target=${TARGET} -var-file=${TFVARS_FILE} --auto-approve
 # rm "$OUTPUT_FILE"
 
 # tf init
 
-#
+# #
 
 exit 0

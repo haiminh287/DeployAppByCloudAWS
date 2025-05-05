@@ -24,56 +24,10 @@ variable "user_data" {
   type        = string
 }
 
-# Chỉ dùng trong module host
-variable "host_instance_name" {
-  description = "Tên instance EC2 cho host"
-  type        = string
-}
-
-variable "host_key_name" {
-  description = "Tên key pair cho EC2 host"
-  type        = string
-}
-
-variable "host_sg_name" {
-  description = "Tên security group cho EC2 host"
-  type        = string
-}
-
 # Chỉ dùng trong module load balancer
-variable "lb_host_sg_name" {
-  description = "Tên security group của host do load balancer quản lý"
-  type        = string
-}
-
-variable "lb_key_name" {
-  description = "Tên key pair cho instances do load balancer quản lý"
-  type        = string
-}
-
-variable "lb_instance_name_prefix" {
-  description = "Prefix tên instance do load balancer tạo"
-  type        = string
-}
-
 variable "host_ports" {
   description = "Các port của host cần expose"
   type        = list(number)
-}
-
-variable "lb_name" {
-  description = "Tên của Load Balancer"
-  type        = string
-}
-
-variable "lb_sg_name" {
-  description = "Tên security group của Load Balancer"
-  type        = string
-}
-
-variable "target_group_name" {
-  description = "Tên target group của Load Balancer"
-  type        = string
 }
 
 variable "rules" {
@@ -92,12 +46,6 @@ variable "db_name" {
   description = "Tên database"
   type        = string
 }
-
-variable "db_subnet_group_name" {
-  description = "Tên subnet group cho RDS"
-  type        = string
-}
-
 variable "user_name" {
   description = "Tên user truy cập database"
   type        = string
@@ -109,9 +57,10 @@ variable "password" {
   sensitive   = true
 }
 
-variable "rds_sg_name" {
-  description = "Tên security group cho RDS"
-  type        = string
+variable "engine" {
+  description = "type database"
+  type = string
+  default = "mysql"
 }
 
 variable "sg_rules" {
