@@ -1,6 +1,6 @@
-db_name = "test_db"
+db_name = "test_new"
 user_name = "admin"
-password = "adminh123!"
+password = "admin"
 engine = "mysql"
 db_subnet_group_name = "rds_subnet_group_02"
 sg_name = "rds_security_02"
