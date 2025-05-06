@@ -7,7 +7,3 @@ output "detail_infos" {
     "vpc_id" = aws_internet_gateway.internet_gateway.vpc_id
   }
 }
-
-output "object" {
-  value = aws_internet_gateway.internet_gateway
-}

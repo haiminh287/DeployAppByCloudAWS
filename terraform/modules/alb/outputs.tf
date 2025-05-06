@@ -9,7 +9,3 @@ output "detail_infos" {
     "vpc_id" = aws_lb.lb.vpc_id
   }
 }
-
-output "object" {
-  value = aws_lb.lb
-}

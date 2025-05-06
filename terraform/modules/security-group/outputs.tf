@@ -10,7 +10,3 @@ output "detail_infos" {
     "egress" = aws_security_group.security_group.egress
   }
 }
-
-output "object" {
-  value = aws_security_group.security_group
-}

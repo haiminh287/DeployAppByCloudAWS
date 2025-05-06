@@ -9,7 +9,3 @@ output "detail_infos" {
         "key_type" = aws_key_pair.key_pair.key_type
     }
 }
-
-output "object" {
-  value = aws_key_pair.key_pair
-}

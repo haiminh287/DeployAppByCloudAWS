@@ -7,9 +7,6 @@ output "detail_infos" {
     "cidr_block" = aws_subnet.subnet.cidr_block
     "vpc_id" = aws_subnet.subnet.vpc_id
     "public_ip_on_launch" = aws_subnet.subnet.map_public_ip_on_launch
+    "tags" = aws_subnet.subnet.tags_all
   }
-}
-
-output "object" {
-  value = aws_subnet.subnet
 }

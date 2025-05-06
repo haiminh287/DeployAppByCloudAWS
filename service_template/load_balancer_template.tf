@@ -1,6 +1,6 @@
 module "_2_user_id_2_-_2_block_id_2_-load_balancer-_2_service_id_2_" {
-  source = "../terraform/versions/stage/deploy_service/alb"
-#   source               = "./terraform/versions/stage/deploy_service/alb"
+  # source = "../terraform/versions/stage/deploy_service/alb"
+  source               = "./terraform/versions/stage/deploy_service/alb"
   host_sg_name         = "_2_user_id_2_-_2_block_id_2_-load_balancer-_2_service_id_2_-host_sg"
   key_name             = "_2_user_id_2_-_2_block_id_2_-load_balancer-_2_service_id_2_-key_name"
   instance_name_prefix = "_2_user_id_2_-_2_block_id_2_-load_balancer-_2_service_id_2_-lb_instance"

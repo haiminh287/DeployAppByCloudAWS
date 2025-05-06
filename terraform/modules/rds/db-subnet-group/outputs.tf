@@ -8,7 +8,3 @@ output "detail_infos" {
     "subnet_ids" = var.subnet_ids
   }
 }
-
-output "object" {
-  value = aws_db_subnet_group.db_subnet_group
-}

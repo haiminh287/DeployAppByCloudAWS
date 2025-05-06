@@ -11,7 +11,3 @@ output "detail_infos" {
     "default_action" = aws_lb_listener.lb_listener.default_action
   }
 }
-
-output "object" {
-  value = aws_lb_listener.lb_listener
-}

@@ -10,7 +10,3 @@ output "detail_infos" {
         "security_groups" = aws_instance.ec2.security_groups
     }
 }
-
-output "object" {
-  value = aws_instance.ec2
-}

@@ -9,7 +9,3 @@ output "detail_infos" {
     "association_id" = aws_nat_gateway.nat_gateway.association_id
   }
 }
-
-output "object" {
-  value = aws_nat_gateway.nat_gateway
-}

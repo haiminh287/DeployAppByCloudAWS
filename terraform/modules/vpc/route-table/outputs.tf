@@ -8,7 +8,3 @@ output "detail_infos" {
     "routes" = aws_route_table.route_table.route
   }
 }
-
-output "obj" {
-  value = aws_route_table.route_table
-}

@@ -1,12 +1,10 @@
 output "data" {
   value = {
     "vpc" = {
-        "object" = module.vpc_with_full_structure.object
         "id" = module.vpc_with_full_structure.id
         "detail_infos" = module.vpc_with_full_structure.detail_infos
     },
     "i_gateway" = {
-        "object" = module.i_gateway_clone.object
         "id" = module.i_gateway_clone.id
         "detail_infos" = module.i_gateway_clone.detail_infos
     },

@@ -14,7 +14,3 @@ output "detail_infos" {
     "status" = aws_db_instance.rds.status
   }
 }
-
-output "object" {
-  value = aws_db_instance.rds
-}

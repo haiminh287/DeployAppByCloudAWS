@@ -8,7 +8,3 @@ output "detail_infos" {
         "main_rtb_id" = aws_vpc.vpc.main_route_table_id
     }
 }
-
-output "object" {
-  value = aws_vpc.vpc
-}

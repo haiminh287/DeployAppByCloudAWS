@@ -12,7 +12,3 @@ output "detail_infos" {
     "lb_arns" = aws_lb_target_group.target_group.load_balancer_arns
   }
 }
-
-output "object" {
-  value = aws_lb_target_group.target_group
-}

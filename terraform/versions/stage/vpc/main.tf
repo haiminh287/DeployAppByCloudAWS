@@ -46,12 +46,12 @@ module "route_table_private" {
 locals {
   public_subnets = {
     for k, v in module.subnets_clone :
-      k => v.object if can(regex("(?i)public", v.object.tags_all["Name"]))
+      k => v if can(regex("(?i)public", v.detail_infos.tags["Name"]))
   }
 
   private_subnets = {
     for k, v in module.subnets_clone :
-      k => v.object if can(regex("(?i)private", v.object.tags_all["Name"]))
+      k => v if can(regex("(?i)private", v.detail_infos.tags["Name"]))
   }
 }
 
