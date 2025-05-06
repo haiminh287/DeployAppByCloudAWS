@@ -96,3 +96,35 @@ function addHostService() {
       console.log(data);
     });
 }
+
+function deleteRDSService(id) {
+  if (window.confirm("Are you sure you want to delete this RDS service?")) {
+    fetch(`/rds-services/${id}`, {
+      method: "delete",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
+}
+
+function deleteHostService(id) {
+  if (window.confirm("Are you sure you want to delete this Host service?")) {
+    fetch(`/host-services/${id}`, {
+      method: "delete",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
+}

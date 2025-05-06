@@ -1,82 +1,56 @@
 {% extends "layout/base.html" %} {% block content %}
-<div class="container mt-5">
-  <h2 class="text-center">RDS Service Configuration</h2>
+<table class="table table-striped table-hover">
+  <thead class="table-dark">
+    <tr>
+      <th scope="col">Id RDS</th>
+      <th scope="col">Trạng Thái</th>
+      <th scope="col">URL Host</th>
+      <th scope="col">Port</th>
+      <th scope="col">Username</th>
+      <th scope="col">Password</th>
+      <th scope="col">Database Name</th>
+      <th scope="col">Type Database</th>
+      <th scope="col">Service ID</th>
+      <th scope="col">Thao Tác</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for rds_service in rds_services %}
+    <tr>
+      <td>{{ rds_service.id }}</td>
+      {% if rds_service.status == "Running" %}
+      <td><span class="badge bg-success">Running</span></td>
+      {% else %}
+      <td><span class="badge bg-secondary">Chưa Sử Dụng</span></td>
+      {% endif %}
+      <td>{{ rds_service.url_host }}</td>
+      <td>{{ rds_service.port }}</td>
+      <td>{{ rds_service.username }}</td>
+      <td>{{ rds_service.password }}</td>
+      <td>{{ rds_service.database_name }}</td>
+      <td>{{ rds_service.type_database }}</td>
+      <td>{{ rds_service.service_id }}</td>
+      <td>
+        {% if rds_service.status != "Running" %}
+        <button class="btn btn-primary btn-sm">Load</button>
+        <button
+          class="btn btn-primary btn-sm btn-danger"
+          onclick="deleteRDSService({{ rds_service.id }})"
+        >
+          Cancle
+        </button>
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
 
-  <form method="POST" action="/rds-services">
-    <div class="form-group">
-      <label for="blockIdInput">Block ID:</label>
-      <input
-      readonly
-        type="text"
-        class="form-control"
-        id="blockIdInput"
-        name="block_id"
-        value="{{ block_id }}"
-      />
-    <div class="form-group">
-      <label for="usernameInput">Username:</label>
-      <input
-        type="text"
-        class="form-control"
-        id="usernameInput"
-        name="username"
-        placeholder="Enter Username"
-        required
-      />
-    </div>
-
-    <div class="form-group">
-      <label for="passwordInput">Password:</label>
-      <input
-        type="password"
-        class="form-control"
-        id="passwordInput"
-        name="password"
-        placeholder="Enter Password"
-        required
-      />
-    </div>
-
-    <div class="form-group">
-      <label for="databaseNameInput">Database Name:</label>
-      <input
-        type="text"
-        class="form-control"
-        id="databaseNameInput"
-        name="database_name"
-        placeholder="Enter Database Name"
-        required
-      />
-    </div>
-
-    <div class="form-group mt-3">
-      <label>Select Database Type:</label><br />
-      <div class="form-check form-check-inline">
-        <input
-          class="form-check-input"
-          type="radio"
-          name="type_database"
-          id="typeDatabaseMysql"
-          value="mysql"
-          checked
-          required
-        />
-        <label class="form-check-label" for="typeDatabaseMysql">MySQL</label>
-      </div>
-
-      <div class="form-check form-check-inline">
-        <input
-          class="form-check-input"
-          type="radio"
-          name="type_database"
-          id="typeDatabaseMssql"
-          value="ms_sql"
-        />
-        <label class="form-check-label" for="typeDatabaseMssql">MS SQL</label>
-      </div>
-    </div>
-
-    <button type="submit" class="btn btn-primary mt-4">Submit</button>
-  </form>
+<div class="text-center mt-4">
+  <a
+    href="/blocks/{{block_id}}/rds-services-form"
+    class="btn btn-success btn-lg"
+    >Add New RDS</a
+  >
 </div>
 {% endblock %}
