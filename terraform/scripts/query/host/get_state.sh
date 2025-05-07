@@ -1,0 +1,26 @@
+#!/bin/bash
+
+HOST_ID=""
+
+# Parse tham số
+while getopts "i:" opt; do
+  case $opt in
+    i) HOST_ID="$OPTARG" ;;
+    \?)
+      echo "Usage: $0 -i <vpc_id>"
+      exit 1 ;;
+  esac
+done
+
+# Kiểm tra nếu thiếu VPC_ID
+if [[ -z "$HOST_ID" ]]; then
+  echo "Missing HOST ID."
+  echo "Usage: $0 -i <host_id>"
+  exit 1
+fi
+
+aws ec2 describe-instances \
+  --filters "Name=instance-id,Values=$HOST_ID" \
+  --region us-east-1 \
+  --query "Reservations[].Instances[].State.Name" \
+  --output json

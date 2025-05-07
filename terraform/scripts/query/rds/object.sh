@@ -1,1 +1,0 @@
-$ aws rds describe-db-instances   --db-instance-identifier terraform-20250504155719360200000001   --output json > state_test.json
