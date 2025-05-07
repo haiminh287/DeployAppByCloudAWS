@@ -1,0 +1,75 @@
+{
+    "db_subnet_group": {
+        "detail_infos": {
+            "name": "alice-block_01-rds-service_01-db_subnet_group",
+            "subnet_ids": [
+                "subnet-0ddcc0f95d64da0b7",
+                "subnet-0be767470fd1ef333"
+            ]
+        },
+        "id": "alice-block_01-rds-service_01-db_subnet_group"
+    },
+    "rds": {
+        "detail_infos": {
+            "db_name": "test_db",
+            "endpoint": "terraform-20250506060234910700000001.cpm02wggy33q.us-east-1.rds.amazonaws.com:3306",
+            "engine": "mysql",
+            "host": "terraform-20250506060234910700000001.cpm02wggy33q.us-east-1.rds.amazonaws.com",
+            "password": "adminh123!",
+            "port": 3306,
+            "status": "available",
+            "username": "admin"
+        },
+        "id": "db-FE4COK6S3J4IUTLCYHJRZ66M4Y"
+    },
+    "security_group": {
+        "detail_infos": {
+            "egress": [
+                {
+                    "cidr_blocks": [
+                        "0.0.0.0/0"
+                    ],
+                    "description": "",
+                    "from_port": 0,
+                    "ipv6_cidr_blocks": [],
+                    "prefix_list_ids": [],
+                    "protocol": "-1",
+                    "security_groups": [],
+                    "self": false,
+                    "to_port": 0
+                }
+            ],
+            "ingress": [
+                {
+                    "cidr_blocks": [
+                        "0.0.0.0/0"
+                    ],
+                    "description": "",
+                    "from_port": 22,
+                    "ipv6_cidr_blocks": [],
+                    "prefix_list_ids": [],
+                    "protocol": "tcp",
+                    "security_groups": [],
+                    "self": false,
+                    "to_port": 22
+                },
+                {
+                    "cidr_blocks": [
+                        "0.0.0.0/0"
+                    ],
+                    "description": "",
+                    "from_port": 3306,
+                    "ipv6_cidr_blocks": [],
+                    "prefix_list_ids": [],
+                    "protocol": "tcp",
+                    "security_groups": [],
+                    "self": false,
+                    "to_port": 3306
+                }
+            ],
+            "name": "alice-block_01-rds-service_01-sg",
+            "vpc_id": "vpc-06cc757c52948216f"
+        },
+        "id": "sg-0dfcc2da14f9924a6"
+    }
+}

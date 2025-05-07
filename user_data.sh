@@ -1,1 +1,1 @@
-!/bin/bash\nsudo apt update -y\nsudo apt install apache2 -y\nsudo systemctl start apache2\nsudo systemctl enable apache2\necho \"<html><body><h1>Public IP: 123456</h1></body></html>\" | sudo tee /var/www/html/index.html\nsudo systemctl restart apache2
+#!/bin/bash\nsudo apt update -y\nsudo apt install apache2 -y\nsudo systemctl start apache2\nsudo systemctl enable apache2\nPUBLIC_IP=$(curl -s https://api.ipify.org)\necho \"<html><body><h1>Public IP: $PUBLIC_IP</h1></body></html>\" | sudo tee /var/www/html/index.html\nsudo systemctl restart apache2

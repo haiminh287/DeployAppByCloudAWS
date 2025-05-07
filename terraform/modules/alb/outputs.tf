@@ -7,5 +7,6 @@ output "detail_infos" {
     "arn" = aws_lb.lb.arn
     "name" = aws_lb.lb.name
     "vpc_id" = aws_lb.lb.vpc_id
+    "dns_name" = aws_lb.lb.dns_name
   }
 }

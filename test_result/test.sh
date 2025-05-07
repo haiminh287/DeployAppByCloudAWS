@@ -1,9 +1,7 @@
-# bash auto_generate_template/generate_apply_template.sh -f service_template/load_balancer_template.tf -o ./test_load_balancer_template_01.tf -u alice -b block_01 -s service_01 -v service_tfvars/test_load_balancer.tfvars
-
-
 #!/bin/bash
 export DEBIAN_FRONTEND=noninteractive
 
+# Cập nhật và cài đặt các gói cần thiết
 apt-get update -y
 apt-get install -y python3 python3-pip git python3-venv
 
