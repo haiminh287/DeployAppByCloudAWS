@@ -1,8 +1,8 @@
-db_name = "test_db"
+db_name = "clouddb"
 user_name = "admin"
-password = "adminh123!"
+password = "admin123"
 engine = "mysql"
-vpc_id = "vpc-xxxxxxxx"            # ID của VPC đã có, ví dụ: "vpc-0abc123def456"
+vpc_id = "vpc-097dd4b43cb92643c"
 sg_rules = {
     "mysql" = {
       from_port = "3306"
@@ -12,4 +12,4 @@ sg_rules = {
     }
 }
 
-subnet_ids = dung` lenh query truy van (aws) de lay ra
+subnet_ids = ["subnet-08b475a2256435935", "subnet-0a2fcb5a73c9cae2b"]

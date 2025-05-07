@@ -1,0 +1,1 @@
+!/bin/bash\nsudo apt update -y\nsudo apt install apache2 -y\nsudo systemctl start apache2\nsudo systemctl enable apache2\necho \"<html><body><h1>Public IP: 123456</h1></body></html>\" | sudo tee /var/www/html/index.html\nsudo systemctl restart apache2

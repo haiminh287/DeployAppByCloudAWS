@@ -37,33 +37,12 @@ echo "Generated: $OUTPUT_FILE"
 
 # code run final
 
-MODULE_NAME=$(grep -oP 'module "\K[^"]+' "$OUTPUT_FILE")
-echo "MODULE_NAME: $MODULE_NAME"
-
-SERVICE_TYPE=$(echo "$MODULE_NAME" | awk -F'-' '{print $3}')
-echo "SERVICE_TYPE: $SERVICE_TYPE"
-
-OUTPUT_TEMPLATE_PATH="./output_template/output_template.tf"
-OUTPUT_TEMPLATE_FILE="./output_file.tf"
-
-sed -e "s/_2_user_id_2_/${USER_ID}/g" \
-    -e "s/_2_block_id_2_/${BLOCK_ID}/g" \
-    -e "s/_2_service_id_2_/${SERVICE_ID}/g" \
-    -e "s/_2_service_type_2_/${SERVICE_TYPE}/g" \
-    "$OUTPUT_TEMPLATE_PATH" > "$OUTPUT_TEMPLATE_FILE"
-
-OUTPUT_NAME=$(grep -oP 'output "\K[^"]+' "$OUTPUT_TEMPLATE_FILE")
-
-
-TARGET="module.$MODULE_NAME"
-tf init
-tf apply -target=${TARGET} -var-file=${TFVARS_FILE} --auto-approve
-
+OUTPUT_NAME=$(grep -oP 'output "\K[^"]+' "$OUTPUT_FILE")
 echo "$OUTPUT_NAME"
 
-pwd
-
-rm "$OUTPUT_TEMPLATE_FILE"
+TARGET="$OUTPUT_NAME"
+tf refresh 
+tf output -target=${TARGET} -var-file=${TFVARS_FILE} --auto-approve 
 rm "$OUTPUT_FILE"
 
 #

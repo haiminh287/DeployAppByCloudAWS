@@ -54,7 +54,6 @@ variable "user_name" {
 variable "password" {
   description = "Mật khẩu user database"
   type        = string
-  sensitive   = true
 }
 
 variable "engine" {

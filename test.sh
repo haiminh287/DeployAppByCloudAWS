@@ -1,0 +1,1 @@
+bash auto_generate_template/generate_apply_template.sh -f service_template/load_balancer_template.tf -o ./test_load_balancer_template_01.tf -u alice -b block_01 -s service_01 -v service_tfvars/test_load_balancer.tfvars
