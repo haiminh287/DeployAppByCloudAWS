@@ -27,6 +27,9 @@ resource "aws_instance" "ec2" {
 
   lifecycle {
     create_before_destroy = true
+    ignore_changes = [
+      user_data,  # This will make Terraform ignore changes to user_data
+    ]
   }
 
   tags = merge(

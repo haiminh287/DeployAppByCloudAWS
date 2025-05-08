@@ -32,7 +32,7 @@ pip install -r requirements.txt
 cd delivery_app
 nohup python3 -m app.index > $USER_HOME/flask_app/flask.log 2>&1 &
 EOF
-host_ports = [7300, 7300]
+host_ports = [7300, 7300, 7300]
 vpc_id = "vpc-097dd4b43cb92643c"
 subnet_ids = ["subnet-08b475a2256435935", "subnet-0a2fcb5a73c9cae2b"]
 

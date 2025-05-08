@@ -36,11 +36,15 @@ cd delivery_app
 nohup python3 -m app.index > $USER_HOME/flask_app/flask.log 2>&1 &
 EOF
 
+
 sg_rules = {
-    "flask" = {
-      from_port = "7300"
-      to_port = "7300"
-      protocol = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
-    }
-}   
+  "flask" = {
+    from_port = "7300"
+    to_port = "7300"
+    protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+} 
+
+
+

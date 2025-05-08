@@ -76,7 +76,11 @@ module "nat_gateway_test" {
 #   sg_name       = "test_sg_01"
 #   vpc_id        = module.vpc_template.data["vpc"]["id"]
 #   subnet_id     = local.public_subnets[0].id
-#   user_data = <<-EOF
+#   user_data = <<EOF
+# #!/bin/bash
+# export DEBIAN_FRONTEND=noninteractive
+
+# # Cập nhật và cài đặt các gói cần thiết
 # apt-get update -y
 # apt-get install -y python3 python3-pip git python3-venv
 

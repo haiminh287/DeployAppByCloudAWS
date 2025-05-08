@@ -1,4 +1,4 @@
-db_name = "cloudtestdb"
+db_name = "clouddbtest"
 user_name = "admin"
 password = "admin1234"
 engine = "mysql"

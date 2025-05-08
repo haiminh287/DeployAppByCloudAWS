@@ -4,17 +4,21 @@ public_key           = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCoAsHn6oKIWlJLa+Tt
 user_data = <<EOF
 #!/bin/bash
 export DEBIAN_FRONTEND=noninteractive
+USER_HOME=/home/ubuntu
 
-# Cập nhật và cài đặt các gói cần thiết
+# Update và cài gói cần thiết
 apt-get update -y
 apt-get install -y python3 python3-pip git python3-venv
 
-# Tạo thư mục và clone dự án
-cd /home/ubuntu/
-mkdir -p flask_app
-cd flask_app
-git clone https://github.com/TNieAccStudy/DeliveryService
-cd ./DeliveryService/
+# Tạo thư mục và clone nếu chưa có
+mkdir -p $USER_HOME/flask_app
+cd $USER_HOME/flask_app
+
+if [ ! -d "DeliveryService" ]; then
+    git clone https://github.com/TNieAccStudy/DeliveryService
+fi
+
+cd DeliveryService
 
 # Tạo virtual environment
 python3 -m venv venv
@@ -24,24 +28,22 @@ chown ubuntu:ubuntu ./venv
 # Cài đặt requirements
 pip install -r requirements.txt
 
-# Chạy app Flask
-cd ./delivery_app/
-python3 -m app.index
+# Chạy app (background + ghi log)
+cd delivery_app
+nohup python3 -m app.index > $USER_HOME/flask_app/flask.log 2>&1 &
 EOF
 
-host_ports = [8300, 8300]
-vpc_id            = "vpc-0366621dc371194d3"              # ID của VPC
+host_ports = [7300, 7300]
+vpc_id            = "vpc-087598ba4f1b026f7"              # ID của VPC
 subnet_ids        = [
-    "subnet-049a504d736ba72f3",
-    "subnet-0eff41aeb637bacec"
+    "subnet-017ccc8e82d8d19dc",
+    "subnet-03e5a69a683e1679b"
 ]
 
-rules = [
-  {
-    from_port         = 8300
-    to_port           = 8300
-    listener_protocol = "tcp"                           # Giao thức listener của ALB
-    host_protocol     = "tcp"                            # Giao thức mở cho EC2
-    cidr_blocks       = ["0.0.0.0/0"]
-  }
-]
+rules = {"flask" = {
+      from_port = "7300"
+      to_port = "7300"
+      protocol = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+}   
