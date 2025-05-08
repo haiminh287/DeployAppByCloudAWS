@@ -61,5 +61,11 @@ class DeployService:
     def get_state(self, type_service, service_id):
         return self.service_run.get_state(type_service, service_id)
 
-    def stop(self, type_service, service_id):
-        return self.service_run.stop_service(type_service, service_id)
+    def disable_service(self, type_service, service_id):
+        return self.service_run.disable_service(type_service, service_id)
+
+    def enable_service(self, type_service, service_id):
+        return self.service_run.enable_service(type_service, service_id)
+
+    def get_importance_data_service(self, type_service, service_id):
+        return self.service_run.get_importance_data_service(type_service, service_id)

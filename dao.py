@@ -28,6 +28,8 @@ def create_block():
 
 
 def get_blocks():
+    if not current_user.is_authenticated:
+        return []
     return Block.query.filter(Block.user_id.__eq__(current_user.id)).all()
 
 
@@ -111,22 +113,29 @@ def get_last_id_lb_service():
     return next_id
 
 
+service_map = {
+    "rds": RDSService,
+    "host": HostService,
+    "lb": LoadBalancer
+}
+
+
 def get_service_by_id(type_service, id):
-    service_map = {
-        "rds": RDSService,
-        "host": HostService,
-        "lb": LoadBalancer
-    }
     service_class = service_map.get(type_service)
     return service_class.query.get(id) if service_class else None
 
 
+def update_service_by_id(type_service, id, load_object):
+    service_class = service_map.get(type_service)
+    service = service_class.query.get(id)
+    if service:
+        service = load_object
+        db.session.commit()
+        return True
+    return False
+
+
 def delete_service_by_id(type_service, id):
-    service_map = {
-        "rds": RDSService,
-        "host": HostService,
-        "lb": LoadBalancer
-    }
     service_class = service_map.get(type_service)
     if service_class:
         service = service_class.query.get(id)
@@ -138,11 +147,6 @@ def delete_service_by_id(type_service, id):
 
 
 def updateState(type_service, service_id, state):
-    service_map = {
-        "rds": RDSService,
-        "host": HostService,
-        "lb": LoadBalancer
-    }
     service_class = service_map.get(type_service)
     print("Service Class:", service_class)
     if service_class:
