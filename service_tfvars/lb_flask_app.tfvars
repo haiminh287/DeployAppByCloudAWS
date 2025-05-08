@@ -30,11 +30,11 @@ python3 -m app.index
 EOF
 
 host_ports = [8300, 8300]
-vpc_id            = "vpc-06cc757c52948216f"              # ID của VPC
+vpc_id            = "vpc-0366621dc371194d3"              # ID của VPC
 subnet_ids        = [
-        "subnet-0ddcc0f95d64da0b7",
-        "subnet-0be767470fd1ef333",
-      ] # Các subnet public để gắn vào ALB
+    "subnet-049a504d736ba72f3",
+    "subnet-0eff41aeb637bacec"
+]
 
 rules = [
   {

@@ -57,7 +57,7 @@ OUTPUT_NAME=$(grep -oP 'output "\K[^"]+' "$OUTPUT_TEMPLATE_FILE")
 
 TARGET="module.$MODULE_NAME"
 tf init
-tf apply -target=${TARGET} -var-file=${TFVARS_FILE} --auto-approve
+tf apply -target=${TARGET} -var-file=${TFVARS_FILE} -lock=false --auto-approve
 
 echo "$OUTPUT_NAME"
 

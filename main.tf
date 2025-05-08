@@ -76,7 +76,39 @@ module "nat_gateway_test" {
 #   sg_name       = "test_sg_01"
 #   vpc_id        = module.vpc_template.data["vpc"]["id"]
 #   subnet_id     = local.public_subnets[0].id
-#   user_data     = ""
+#   user_data = <<-EOF
+# apt-get update -y
+# apt-get install -y python3 python3-pip git python3-venv
+
+# # Tạo thư mục và clone dự án
+# cd /home/ubuntu/
+# mkdir -p flask_app
+# cd flask_app
+# git clone https://github.com/TNieAccStudy/DeliveryService
+# cd ./DeliveryService/
+
+# # Tạo virtual environment
+# python3 -m venv venv
+# chown ubuntu:ubuntu ./venv
+# . venv/bin/activate
+
+# # Cài đặt requirements
+# pip install -r requirements.txt
+
+# # Chạy app Flask
+# cd ./delivery_app/
+# python3 -m app.index
+# EOF
+
+# sg_rules = {
+#   "flask" = {
+#     from_port = 7300
+#     to_port = 7300
+#     protocol = "tcp"
+#     cidr_blocks = ["0.0.0.0/0"]
+#   }
+# }
+
 # }
 
 # module "host_02" {

@@ -3,8 +3,8 @@
         "detail_infos": {
             "name": "alice-block_01-rds-service_01-db_subnet_group",
             "subnet_ids": [
-                "subnet-0ddcc0f95d64da0b7",
-                "subnet-0be767470fd1ef333"
+                "subnet-049a504d736ba72f3",
+                "subnet-0eff41aeb637bacec"
             ]
         },
         "id": "alice-block_01-rds-service_01-db_subnet_group"
@@ -12,15 +12,15 @@
     "rds": {
         "detail_infos": {
             "db_name": "test_db",
-            "endpoint": "terraform-20250506060234910700000001.cpm02wggy33q.us-east-1.rds.amazonaws.com:3306",
+            "endpoint": "terraform-20250507120050321300000001.cpm02wggy33q.us-east-1.rds.amazonaws.com:3306",
             "engine": "mysql",
-            "host": "terraform-20250506060234910700000001.cpm02wggy33q.us-east-1.rds.amazonaws.com",
+            "host": "terraform-20250507120050321300000001.cpm02wggy33q.us-east-1.rds.amazonaws.com",
             "password": "adminh123!",
             "port": 3306,
             "status": "available",
             "username": "admin"
         },
-        "id": "db-FE4COK6S3J4IUTLCYHJRZ66M4Y"
+        "id": "db-TYRJHNDG6DUBBX2VDXAIOWDNLM"
     },
     "security_group": {
         "detail_infos": {
@@ -68,8 +68,8 @@
                 }
             ],
             "name": "alice-block_01-rds-service_01-sg",
-            "vpc_id": "vpc-06cc757c52948216f"
+            "vpc_id": "vpc-0366621dc371194d3"
         },
-        "id": "sg-0dfcc2da14f9924a6"
+        "id": "sg-04632327e86854e91"
     }
 }

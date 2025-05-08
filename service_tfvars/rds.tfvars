@@ -1,6 +1,6 @@
-db_name = "cloud"
+db_name = "cloudtestdb"
 user_name = "admin"
-password = "admin123"
+password = "admin1234"
 engine = "mysql"
 vpc_id = "vpc-097dd4b43cb92643c"
 sg_rules = {

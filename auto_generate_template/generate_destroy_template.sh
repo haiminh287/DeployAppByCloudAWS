@@ -41,7 +41,7 @@ MODULE_NAME=$(grep -oP 'module "\K[^"]+' "$OUTPUT_FILE")
 echo "MODULE_NAME: $MODULE_NAME"
 
 TARGET="module.$MODULE_NAME"
-tf destroy -target=${TARGET} -var-file=${TFVARS_FILE} --auto-approve
+tf destroy -target=${TARGET} -var-file=${TFVARS_FILE} -lock=false --auto-approve
 
 rm "$OUTPUT_FILE"
 
