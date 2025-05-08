@@ -23,7 +23,6 @@ class User(db.Model, UserMixin):
     created_at = Column(DateTime, default=dt.now())
     email = Column(EmailType, unique=True, nullable=True)
     user_role = Column(Enum(UserRole), default=UserRole.USER)
-    # Quan hệ một-nhiều với Block
     blocks = db.relationship('Block', backref='user', lazy=True)
 
 
@@ -45,6 +44,7 @@ class Service(BaseModel):
     id = Column(Integer, primary_key=True, autoincrement=True)
     block_id = Column(Integer, ForeignKey('blocks.id'), nullable=False)
     service_id = Column(String(256), nullable=True)
+    state = Column(String(256), nullable=True, default="running")
 
 
 class VMTypeEnum(RoleEnum):
@@ -88,6 +88,24 @@ class RDSService(Service):
     database_name = Column(String(128), nullable=True)
     type_database = Column(Enum(TypeDatabaseEnum),
                            default=TypeDatabaseEnum.MYSQL)
+
+
+class LoadBalancer(Service):
+    __tablename__ = 'lb_services'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    url_web_load_balancer = Column(String(256), nullable=True)
+    public_key = Column(Text, nullable=True)
+    user_data = Column(Text, nullable=True)
+    host_ports = db.relationship(
+        'PortLoadBalancer', backref='load_balancer', lazy=True)
+
+
+class PortLoadBalancer(db.Model):
+    __tablename__ = 'ports'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    number = Column(Integer, nullable=False)
+    load_balancer_id = Column(Integer, ForeignKey(
+        'lb_services.id'), nullable=True)
 
 
 if __name__ == '__main__':

@@ -55,6 +55,13 @@ class ServiceRunCmd:
     def get_vpc(self):
         return self.get_info("terraform/scripts/query/others/vpc_ids.sh")[0]
 
-    def get_subnet(self, vpc_id):
+    def get_subnets(self, vpc_id):
         return self.get_info(
             "terraform/scripts/query/others/public_subnets.sh -i {}".format(vpc_id))
+
+    def get_state(self, type_service, service_id):
+        command = [self.bash_path] + [
+            f"terraform/scripts/query/{type_service}/get_state.sh",
+            "-i", service_id
+        ]
+        return self.run_command(command)

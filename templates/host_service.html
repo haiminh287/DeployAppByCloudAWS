@@ -1,4 +1,8 @@
-{% extends "layout/base.html" %} {% block content %}
+{% extends "layout/base.html" %} {% block content %} {% if status_message %}
+<div class="alert alert-info text-center fs-5" role="alert">
+  {{ status_message }}
+</div>
+{% endif %}
 <table class="table table-striped table-hover">
   <thead class="table-dark">
     <tr>
@@ -10,7 +14,7 @@
       <th scope="col">Type EC2</th>
       <th scope="col">VM Type</th>
       <th scope="col">Key Pair</th>
-      <th scope="col">Load Balancer Counter</th>
+      <th scope="col">State</th>
       <th scope="col">Web Load Balancer URL</th>
       <th scope="col">Public IP</th>
       <th scope="col">Thao Tác</th>
@@ -26,19 +30,22 @@
       <td>{{ service.type_ec2 }}</td>
       <td>{{ service.vm_type }}</td>
       <td>{{ service.key_pair }}</td>
-      <td>{{ service.load_balancer_counter }}</td>
+      <td class="state text-success">{{ service.state }}</td>
       <td>{{ service.url_web_load_balancer }}</td>
       <td>{{ service.public_ip }}</td>
       <td>
-        {% if service.status != "Running" %}
-        <button class="btn btn-primary btn-sm">Load</button>
+        <button
+          class="btn btn-primary btn-sm"
+          onclick="onLoadState('host',{{ service.id }})"
+        >
+          Load
+        </button>
         <button
           class="btn btn-primary btn-sm btn-danger"
           onclick="deleteHostService({{ service.id }})"
         >
           Cancle
         </button>
-        {% endif %}
       </td>
     </tr>
     {% endfor %}

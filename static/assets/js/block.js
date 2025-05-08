@@ -97,34 +97,85 @@ function addHostService() {
     });
 }
 
-function deleteRDSService(id) {
-  if (window.confirm("Are you sure you want to delete this RDS service?")) {
-    fetch(`/rds-services/${id}`, {
+function showLoading() {
+  const loadingElement = document.createElement("div");
+  loadingElement.id = "loading";
+  loadingElement.textContent = "Đang Xóa ...";
+  loadingElement.style.position = "fixed";
+  loadingElement.style.top = "50%";
+  loadingElement.style.left = "50%";
+  loadingElement.style.transform = "translate(-50%, -50%)";
+  loadingElement.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
+  loadingElement.style.color = "white";
+  loadingElement.style.padding = "10px 20px";
+  loadingElement.style.borderRadius = "5px";
+  loadingElement.style.zIndex = "1000";
+  document.body.appendChild(loadingElement);
+}
+
+function hideLoading() {
+  const loadingElement = document.getElementById("loading");
+  if (loadingElement) {
+    loadingElement.remove();
+  }
+}
+
+function deleteService(url, id, serviceName) {
+  if (
+    window.confirm(
+      `Are you sure you want to delete this ${serviceName} service?`
+    )
+  ) {
+    showLoading();
+    fetch(`${url}/${id}`, {
       method: "delete",
     })
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        window.location.reload();
+        // window.location.reload();
       })
       .catch((error) => {
         console.error("Error:", error);
+      })
+      .finally(() => {
+        hideLoading();
       });
   }
 }
 
+function deleteRDSService(id) {
+  deleteService("/rds-services", id, "RDS");
+}
+
 function deleteHostService(id) {
-  if (window.confirm("Are you sure you want to delete this Host service?")) {
-    fetch(`/host-services/${id}`, {
-      method: "delete",
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        window.location.reload();
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  }
+  deleteService("/host-services", id, "Host");
+}
+
+function deleteLBService(id) {
+  deleteService("/lb-services", id, "LB");
+}
+
+function onLoadState(type_service, id) {
+  const loadingElement = document.createElement("div");
+  loadingElement.textContent = "Đang loading...";
+  loadingElement.id = "loading";
+  document.body.appendChild(loadingElement);
+  fetch(`/${type_service}-services/${id}/state`, {
+    method: "post",
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data.state[0]);
+      const loading = document.getElementById("loading");
+      if (loading) {
+        loading.remove();
+      }
+      if (data.status == "success") {
+        document.querySelector(".state").textContent = data.state;
+        // window.location.reload();
+      } else {
+        alert("Fail");
+      }
+    });
 }

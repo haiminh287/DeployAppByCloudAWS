@@ -1,0 +1,21 @@
+<table class="table table-striped table-hover">
+  <thead class="table-dark">
+    <tr>
+      <th scope="col">Target Id</th>
+      <th scope="col">Healthy Status</th>
+      <th scope="col">Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for target in targets %}
+    <tr>
+      <td>{{ target.targetId }}</td>
+      <td>{{ target.health.State }}</td>
+      <td>{{ target.status }}</td>
+      <td>
+        <button class="btn btn-primary btn-sm">Load</button>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>

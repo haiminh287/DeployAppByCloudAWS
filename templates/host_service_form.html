@@ -114,7 +114,7 @@
       id="loadBalancerCountGroup"
       style="display: none"
     >
-      <label for="loadBalancerCount">Number of Load Balancers:</label>
+      <label for="loadBalancerCount">Number Of Port:</label>
       <input
         type="number"
         class="form-control"
@@ -124,6 +124,7 @@
         value="0"
       />
     </div>
+    <div id="portInputsContainer"></div>
 
     <button type="submit" class="btn btn-primary mt-4">Submit</button>
   </form>
@@ -134,5 +135,33 @@
     const inputGroup = document.getElementById("loadBalancerCountGroup");
     inputGroup.style.display = checkbox.checked ? "block" : "none";
   }
+
+  document
+    .getElementById("loadBalancerCount")
+    .addEventListener("input", function () {
+      const count = parseInt(this.value) || 0;
+      const container = document.getElementById("portInputsContainer");
+
+      // Clear existing inputs
+      container.innerHTML = "";
+
+      // Generate new inputs
+      for (let i = 1; i <= count; i++) {
+        const label = document.createElement("label");
+        label.textContent = `Port for Load Balancer ${i}:`;
+        label.setAttribute("for", `port_${i}`);
+
+        const input = document.createElement("input");
+        input.type = "number";
+        input.className = "form-control";
+        input.id = `port_${i}`;
+        input.name = `port_${i}`;
+        input.placeholder = `Enter port for Load Balancer ${i}`;
+        input.required = true;
+
+        container.appendChild(label);
+        container.appendChild(input);
+      }
+    });
 </script>
 {% endblock %}

@@ -19,7 +19,6 @@
       {% endif %}
       <td>
         {% if host_service %}
-        <button class="btn btn-primary btn-sm">Load</button>
         <a
           href="/blocks/{{block_id}}/host-services"
           class="btn btn-primary btn-sm ml-4"
@@ -45,8 +44,6 @@
 
       <td>
         {% if rds_service %}
-        <button class="btn btn-primary btn-sm">Load</button>
-
         <a
           href="/blocks/{{block_id}}/rds-services"
           class="btn btn-primary btn-sm ml-4"
@@ -63,16 +60,15 @@
     </tr>
     <tr>
       <th scope="row">3</th>
-      <td>Dịch Vụ Host AGS</td>
+      <td>Info LoadBalancer</td>
+      {% if lb_service %}
+      <td><span class="badge bg-success">Running</span></td>
+      {% else %}
       <td><span class="badge bg-secondary">Chưa Sử Dụng</span></td>
+      {% endif %}
       <td>
-        <button class="btn btn-primary btn-sm">Load</button>
-        <a href="/blocks/{{block_id}}/services/3" class="btn btn-primary btn-sm"
-          >Use</a
-        >
-
         <a
-          href="/blocks/{{block_id}}/services/3"
+          href="/blocks/{{block_id}}/lb-services"
           class="btn btn-primary btn-sm ml-4"
           >Detail</a
         >
