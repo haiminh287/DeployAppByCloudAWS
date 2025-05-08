@@ -19,8 +19,8 @@ if [[ -z "$HOST_ID" ]]; then
   exit 1
 fi
 
-aws ec2 describe-instances \
-  --filters "Name=instance-id,Values=$HOST_ID" \
-  --region us-east-1 \
-  --query "Reservations[].Instances[].State.Name" \
-  --output json
+aws ec2 stop-instances \
+    --instance-ids ${HOST_ID} \
+    --region us-east-1 \
+    --query "StoppingInstances[].CurrentState.Name" \
+    --output json

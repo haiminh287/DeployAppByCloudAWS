@@ -68,48 +68,52 @@ module "nat_gateway_test" {
 #   }
 # }
 
-module "host_01" {
-  source        = "./terraform/versions/stage/deploy_service/host"
-  instance_name = "test_ec2_01"
-  key_name      = "test_key_01"
-  public_key    = file("./key_gen_01.pub")
-  sg_name       = "test_sg_01"
-  vpc_id        = module.vpc_template.data["vpc"]["id"]
-  subnet_id     = local.public_subnets[0].id
-  user_data = <<-EOF
-apt-get update -y
-apt-get install -y python3 python3-pip git python3-venv
+# module "host_01" {
+#   source        = "./terraform/versions/stage/deploy_service/host"
+#   instance_name = "test_ec2_01"
+#   key_name      = "test_key_01"
+#   public_key    = file("./key_gen_01.pub")
+#   sg_name       = "test_sg_01"
+#   vpc_id        = module.vpc_template.data["vpc"]["id"]
+#   subnet_id     = local.public_subnets[0].id
+#   user_data = <<EOF
+# #!/bin/bash
+# export DEBIAN_FRONTEND=noninteractive
 
-# Tạo thư mục và clone dự án
-cd /home/ubuntu/
-mkdir -p flask_app
-cd flask_app
-git clone https://github.com/TNieAccStudy/DeliveryService
-cd ./DeliveryService/
+# # Cập nhật và cài đặt các gói cần thiết
+# apt-get update -y
+# apt-get install -y python3 python3-pip git python3-venv
 
-# Tạo virtual environment
-python3 -m venv venv
-chown ubuntu:ubuntu ./venv
-. venv/bin/activate
+# # Tạo thư mục và clone dự án
+# cd /home/ubuntu/
+# mkdir -p flask_app
+# cd flask_app
+# git clone https://github.com/TNieAccStudy/DeliveryService
+# cd ./DeliveryService/
 
-# Cài đặt requirements
-pip install -r requirements.txt
+# # Tạo virtual environment
+# python3 -m venv venv
+# chown ubuntu:ubuntu ./venv
+# . venv/bin/activate
 
-# Chạy app Flask
-cd ./delivery_app/
-python3 -m app.index
-EOF
+# # Cài đặt requirements
+# pip install -r requirements.txt
 
-sg_rules = {
-  "flask" = {
-    from_port = 7300
-    to_port = 7300
-    protocol = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-}
+# # Chạy app Flask
+# cd ./delivery_app/
+# python3 -m app.index
+# EOF
 
-}
+# sg_rules = {
+#   "flask" = {
+#     from_port = 7300
+#     to_port = 7300
+#     protocol = "tcp"
+#     cidr_blocks = ["0.0.0.0/0"]
+#   }
+# }
+
+# }
 
 # module "host_02" {
 #   source        = "./terraform/versions/stage/deploy_service/host"

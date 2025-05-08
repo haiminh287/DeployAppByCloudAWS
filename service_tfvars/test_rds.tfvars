@@ -2,7 +2,7 @@ db_name = "test_db"
 user_name = "admin"
 password = "adminh123!"
 engine = "mysql"
-vpc_id ="vpc-0366621dc371194d3"         # ID của VPC đã có, ví dụ: "vpc-0abc123def456"
+vpc_id ="vpc-087598ba4f1b026f7"         # ID của VPC đã có, ví dụ: "vpc-0abc123def456"
 sg_rules = {
     "mysql" = {
       from_port = "3306"
@@ -12,6 +12,6 @@ sg_rules = {
     }
 }
 subnet_ids =[
-    "subnet-049a504d736ba72f3",
-    "subnet-0eff41aeb637bacec"
+    "subnet-017ccc8e82d8d19dc",
+    "subnet-03e5a69a683e1679b"
 ]
