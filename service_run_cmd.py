@@ -64,4 +64,13 @@ class ServiceRunCmd:
             f"terraform/scripts/query/{type_service}/get_state.sh",
             "-i", service_id
         ]
+
+        print("Command:", command)
+        return self.run_command(command)
+
+    def stop_service(self, type_service, service_id):
+        command = [self.bash_path] + [
+            f"terraform/scripts/query/{type_service}/stop_service.sh",
+            "-i", service_id
+        ]
         return self.run_command(command)

@@ -86,7 +86,7 @@ def lb_service(block_id):
     return render_template('lb_service.html', load_balancers=load_balancers)
 
 
-@app.route('/lb-services/<int:lb_service_id>', methods=['GET', 'DELETE'])
+@app.route('/lb-services/<int:lb_service_id>', methods=['GET', 'POST', 'DELETE'])
 def delete_lb_service(lb_service_id):
     service = dao.get_service_by_id("lb", lb_service_id)
     deploy_main_service = DeployService(service.block_id)
@@ -94,7 +94,13 @@ def delete_lb_service(lb_service_id):
         utils.destroy_service_thread(
             deploy_main_service, "lb", lb_service_id)
         return jsonify({"status": "success", "message": "LB service deleted successfully"})
+    if request.method.__eq__('POST'):
+        deploy_main_service.stop("lb", service.service_id)
+        dao.updateState("lb", lb_service_id, "stopped")
+        return jsonify({"status": "success", "state": "stopped"})
+
     targets = deploy_main_service.get_state("lb", service.service_id)
+    print("TARGETS:", targets)
     return render_template('lb_service_detail.html', targets=targets)
 
 
@@ -113,16 +119,27 @@ def host_service(block_id):
         ec2_type = EC2Type(ec2_type)
         vm_type = VMTypeEnum(vm_type)
         load_balancer_counter = int(request.form.get('load_balancer_count', 0))
+        port = request.form.get('port')
         tfvars_host_path = r"C:\Users\MINH\Documents\Zalo_Received_Files\MyTFAWS1\service_tfvars\host.tfvars"
         deploy_main_service = DeployService(block_id)
         if load_balancer_counter == 0:
+            sg_rules = {
+                "flask": {
+                    "from_port": port,
+                    "to_port": port,
+                    "protocol": "tcp",
+                    "cidr_blocks": ["0.0.0.0/0"]
+                }
+            }
             updates_new = {
-                "user_data": text_script_run
+                "user_data": text_script_run,
+                "subnet_id": deploy_main_service.service_run.get_subnets(deploy_main_service.vpc_id)[0],
+                "sg_rules": sg_rules
             }
 
             utils.deploy_service_thread(
                 deploy_main_service, tfvars_host_path, "host", updates_new, url_github=url_github, text_script_run=text_script_run, type_ec2=ec2_type,
-                block_id=block_id, vm_type=vm_type)
+                block_id=block_id, vm_type=vm_type, port=port)
             status_message = "Đang tạo dịch vụ Host, vui lòng đợi..."
         else:
             tfvars_lb_path = r"C:\Users\MINH\Documents\Zalo_Received_Files\MyTFAWS1\service_tfvars\lb.tfvars"
@@ -154,7 +171,7 @@ def host_service(block_id):
     return render_template('host_service.html', host_services=host_services, block_id=block_id, status_message=status_message)
 
 
-@app.route('/host-services/<int:host_service_id>', methods=['DELETE'])
+@app.route('/host-services/<int:host_service_id>', methods=['POST', 'DELETE'])
 def delete_host_service(host_service_id):
     service = dao.get_service_by_id("host", host_service_id)
     deploy_main_service = DeployService(service.block_id)
@@ -162,6 +179,10 @@ def delete_host_service(host_service_id):
         utils.destroy_service_thread(
             deploy_main_service, "host", host_service_id)
         return jsonify({"status": "success", "message": "Host service deleted successfully"})
+    if request.method.__eq__('POST'):
+        state = deploy_main_service.stop("host", service.service_id)
+        dao.updateState("host", host_service_id, "stopped")
+        return jsonify({"status": "success", "state": state})
 
 
 @app.route('/host-services/<int:host_service_id>/state', methods=['POST'])
@@ -170,8 +191,9 @@ def get_state_host_service(host_service_id):
     deploy_main_service = DeployService(service.block_id)
     if request.method.__eq__('POST'):
         state = deploy_main_service.get_state("host", service.service_id)
-        dao.updateState("host", state)
-        return jsonify({"status": "success", "state": state})
+        print("STATE:", state)
+        dao.updateState("host", host_service_id, state[0])
+        return jsonify({"status": "success", "state":  state})
 
 
 @app.route('/blocks/<int:block_id>/host-services-form', methods=['GET'])
@@ -214,14 +236,18 @@ def rds_service(block_id):
     return render_template('rds_service.html', rds_services=rds_services, block_id=block_id, status_message=status_message)
 
 
-@app.route('/rds-services/<int:rds_service_id>', methods=['DELETE'])
+@app.route('/rds-services/<int:rds_service_id>', methods=['POST', 'DELETE'])
 def delete_rds_service(rds_service_id):
+    service = dao.get_service_by_id("rds", rds_service_id)
+    deploy_main_service = DeployService(service.block_id)
     if request.method.__eq__('DELETE'):
-        service = dao.get_service_by_id("rds", rds_service_id)
-        deploy_main_service = DeployService(service.block_id)
         utils.destroy_service_thread(
             deploy_main_service, "rds", rds_service_id)
         return jsonify({"status": "success", "message": "RDS service deleted successfully"})
+    if request.method.__eq__('POST'):
+        deploy_main_service.stop("rds", service.service_id)
+        dao.updateState("rds", rds_service_id, "stopped")
+        return jsonify({"status": "success", "state": "stopped"})
 
 
 @app.route('/rds-services/<int:rds_service_id>/state', methods=['POST'])
@@ -230,7 +256,7 @@ def get_state_rds_service(rds_service_id):
     deploy_main_service = DeployService(service.block_id)
     if request.method.__eq__('POST'):
         state = deploy_main_service.get_state("rds", service.service_id)
-        dao.updateState("rds", state)
+        dao.updateState("rds", rds_service_id, state)
         return jsonify({"status": "success", "state": state})
 
 

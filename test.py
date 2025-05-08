@@ -12,19 +12,11 @@ class UpdateTfvars:
 
         updated_lines = []
         skip_lines = False
-        skip_sg_rules_block = False  # <== flag skip sg_rules
-
         for line in lines:
             if skip_lines:
                 if line.strip() == "EOF":
                     skip_lines = False
                 continue
-
-            if skip_sg_rules_block:
-                if line.strip() == "}":
-                    skip_sg_rules_block = False
-                continue
-
             for key, value in updates.items():
                 if line.startswith(key):
                     if key == "user_data":
@@ -54,11 +46,9 @@ class UpdateTfvars:
                                 terraform_rule += "  }"
                                 terraform_sg_rules.append(terraform_rule)
 
+                            # FIX: ghi toàn bộ sg_rules 1 lần duy nhất
                             value = "{\n" + \
                                 "\n".join(terraform_sg_rules) + "\n}"
-                            value = value.rstrip('}')
-                            line = f'{key} = {value}\n}}\n'
-                            skip_sg_rules_block = True
                         else:
                             value = json.dumps(value, indent=2).replace(
                                 '"', '\\"').replace("'", '"')
@@ -71,7 +61,6 @@ class UpdateTfvars:
                     break
 
             updated_lines.append(line)
-
         with open(file_path, "w", encoding='utf-8', newline='') as file:
             file.writelines(updated_lines)
 

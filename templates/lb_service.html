@@ -31,13 +31,15 @@
         <span class="text-muted">No Ports</span>
         {% endif %}
       </td>
-      <span class="badge">{{lb.state}}</span>
       <td>
-        <a class="btn btn-primary btn-sm" href="/lb-services/{{lb.id}}"
+        <span id="state" class="badge text-success">{{lb.state}}</span>
+      </td>
+      <td>
+        <a class="btn btn-primary btn-sm mt-3" href="/lb-services/{{lb.id}}"
           >Detail</a
         >
         <button
-          class="btn btn-danger btn-sm"
+          class="btn btn-danger btn-sm mt-3"
           onclick="deleteLBService({{lb.id}})"
         >
           Delete

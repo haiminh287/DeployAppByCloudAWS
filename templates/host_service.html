@@ -8,14 +8,12 @@
     <tr>
       <th scope="col">ID</th>
       <th scope="col">Service ID</th>
-
       <th scope="col">URL Github</th>
       <th scope="col">Script Run</th>
       <th scope="col">Type EC2</th>
       <th scope="col">VM Type</th>
       <th scope="col">Key Pair</th>
       <th scope="col">State</th>
-      <th scope="col">Web Load Balancer URL</th>
       <th scope="col">Public IP</th>
       <th scope="col">Thao Tác</th>
     </tr>
@@ -30,8 +28,7 @@
       <td>{{ service.type_ec2 }}</td>
       <td>{{ service.vm_type }}</td>
       <td>{{ service.key_pair }}</td>
-      <td class="state text-success">{{ service.state }}</td>
-      <td>{{ service.url_web_load_balancer }}</td>
+      <td id="state" class="text-success">{{ service.state }}</td>
       <td>{{ service.public_ip }}</td>
       <td>
         <button
@@ -41,11 +38,16 @@
           Load
         </button>
         <button
-          class="btn btn-primary btn-sm btn-danger"
+          class="btn btn-primary btn-sm btn-danger mt-3"
           onclick="deleteHostService({{ service.id }})"
         >
-          Cancle
+          Delete
         </button>
+        <button
+        class="btn btn-danger btn-sm mt-3"
+        onclick="stopService('host',{{service.id}})"
+      >
+        Stop
       </td>
     </tr>
     {% endfor %}

@@ -31,9 +31,9 @@ def get_blocks():
     return Block.query.filter(Block.user_id.__eq__(current_user.id)).all()
 
 
-def create_host_service(url_github, text_script_run, type_ec2, block_id, vm_type, public_ip, service_id, key_pair, url_web_load_balancer=None):
+def create_host_service(url_github, text_script_run, type_ec2, block_id, vm_type, public_ip, service_id, key_pair, port, url_web_load_balancer=None):
     host_service = HostService(url_github=url_github, text_script_run=text_script_run, type_ec2=type_ec2,
-                               block_id=block_id, vm_type=vm_type, public_ip=public_ip, service_id=service_id, url_web_load_balancer=url_web_load_balancer, key_pair=key_pair)
+                               block_id=block_id, vm_type=vm_type, public_ip=public_ip, service_id=service_id, url_web_load_balancer=url_web_load_balancer, key_pair=key_pair, port=port)
     db.session.add(host_service)
     db.session.commit()
     return host_service
@@ -144,6 +144,7 @@ def updateState(type_service, service_id, state):
         "lb": LoadBalancer
     }
     service_class = service_map.get(type_service)
+    print("Service Class:", service_class)
     if service_class:
         service = service_class.query.get(service_id)
         if service:

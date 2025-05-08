@@ -21,7 +21,6 @@ class DeployService:
         )
         last_id_service = dao.get_last_id(f"{type_service}_services")
         output_path = f"./{type_service}_template_{last_id_service}.tf"
-        # print("currnet_user:", current_user)
         self.service_run.run_generate_template(user_id="u{}".format(kwargs['current_user_id']), block_id=str(self.block_id),
                                                service_template=f"{type_service}_template.tf",
                                                service_tfvars=f"{type_service}.tfvars",
@@ -42,7 +41,7 @@ class DeployService:
             dao.create_host_service(kwargs['url_github'], kwargs['text_script_run'], kwargs['type_ec2'],
                                     self.block_id, kwargs['vm_type'],
                                     output["ec2"]["detail_infos"]["public-ip"],
-                                    service_id=output["ec2"]["id"], key_pair=output["key_pair"]["detail_infos"]["public_key"])
+                                    service_id=output["ec2"]["id"], key_pair=output["key_pair"]["detail_infos"]["public_key"], port=kwargs['port'])
         elif type_service == 'lb':
             dao.create_load_balancer_service(output, block_id=self.block_id,
                                              user_data=kwargs['user_data'], host_ports=kwargs['host_ports'])
@@ -61,3 +60,6 @@ class DeployService:
 
     def get_state(self, type_service, service_id):
         return self.service_run.get_state(type_service, service_id)
+
+    def stop(self, type_service, service_id):
+        return self.service_run.stop_service(type_service, service_id)

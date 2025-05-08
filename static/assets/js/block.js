@@ -166,13 +166,37 @@ function onLoadState(type_service, id) {
   })
     .then((res) => res.json())
     .then((data) => {
-      console.log(data.state[0]);
       const loading = document.getElementById("loading");
       if (loading) {
         loading.remove();
       }
       if (data.status == "success") {
-        document.querySelector(".state").textContent = data.state;
+        alert(data.state);
+        document.querySelector("#state").textContent = data.state[0];
+        // window.location.reload();
+      } else {
+        alert("Fail");
+      }
+    });
+}
+
+function stopService(type_service, id) {
+  const loadingElement = document.createElement("div");
+  loadingElement.textContent = "Đang stop...";
+  loadingElement.id = "loading";
+  document.body.appendChild(loadingElement);
+  fetch(`/${type_service}-services/${id}`, {
+    method: "post",
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      const loading = document.getElementById("loading");
+      if (loading) {
+        loading.remove();
+      }
+      if (data.status == "success") {
+        alert(data.state);
+        document.querySelector("#state").textContent = data.state;
         // window.location.reload();
       } else {
         alert("Fail");
