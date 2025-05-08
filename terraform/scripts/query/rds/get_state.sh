@@ -19,7 +19,7 @@ if [[ -z "$RDS_ID" ]]; then
   exit 1
 fi
 
-  aws rds describe-db-instances \
-    --region us-east-1 \
-    --query "DBInstances[?DbiResourceId=='$RDS_ID'].DBInstanceStatus" \
-    --output json
+aws rds describe-db-instances \
+  --region us-east-1 \
+  --query "DBInstances[?DbiResourceId=='$RDS_ID'].{status: DBInstanceStatus}" \
+  --output json

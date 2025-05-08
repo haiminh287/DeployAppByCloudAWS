@@ -27,5 +27,5 @@ DB_IDENTIFIER=$(aws rds describe-db-instances \
 aws rds start-db-instance \
     --db-instance-identifier "$DB_IDENTIFIER" \
     --region us-east-1 \
-    --query "[DBInstance.DBInstanceStatus]" \
+    --query "[DBInstance.{status: DBInstanceStatus}]" \
     --output json

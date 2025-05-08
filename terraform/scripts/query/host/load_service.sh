@@ -22,5 +22,5 @@ fi
 aws ec2 start-instances \
     --instance-ids ${HOST_ID} \
     --region us-east-1 \
-    --query "StartingInstances[].CurrentState.Name" \
+    --query "StartingInstances[].{status: CurrentState.Name}" \
     --output json

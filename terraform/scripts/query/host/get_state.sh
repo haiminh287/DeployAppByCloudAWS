@@ -22,5 +22,5 @@ fi
 aws ec2 describe-instances \
   --filters "Name=instance-id,Values=$HOST_ID" \
   --region us-east-1 \
-  --query "Reservations[].Instances[].State.Name" \
+  --query "Reservations[].Instances[].{status: State.Name}" \
   --output json

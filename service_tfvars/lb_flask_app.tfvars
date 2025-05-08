@@ -35,10 +35,7 @@ EOF
 
 host_ports = [7300, 7300]
 vpc_id            = "vpc-087598ba4f1b026f7"              # ID của VPC
-subnet_ids        = [
-    "subnet-017ccc8e82d8d19dc",
-    "subnet-03e5a69a683e1679b"
-]
+subnet_ids        = ["subnet-017ccc8e82d8d19dc","subnet-03e5a69a683e1679b"]
 
 rules = [
   {
