@@ -22,5 +22,5 @@ fi
 aws ec2 stop-instances \
     --instance-ids ${HOST_ID} \
     --region us-east-1 \
-    --query "StoppingInstances[].CurrentState.Name" \
+    --query "StoppingInstances[].{status: CurrentState.Name}" \
     --output json

@@ -1,4 +1,4 @@
-db_name = "clouddbtest"
+db_name = "bookmanagerdb"
 user_name = "admin"
 password = "admin1234"
 engine = "mysql"
