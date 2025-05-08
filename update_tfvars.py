@@ -1,5 +1,5 @@
 import json
-
+import random
 
 class UpdateTfvars:
     def __init__(self, vpc_id, subnet_ids):
@@ -46,6 +46,7 @@ class UpdateTfvars:
         updates = {
             "vpc_id": self.vpc_id,
             "subnet_ids": self.subnet_ids,
+            "subnet_id": random.choice(self.subnet_ids)
         }
         updates.update(updates_new)
         self.update_tfvars_file(tfvars_path, updates)

@@ -6,11 +6,8 @@ import threading
 
 class ServiceRunCmd:
     def __init__(self):
-        self.target_directory = os.path.join(
-            os.path.expanduser(
-                "~"), "Documents", "Zalo_Received_Files", "MyTFAWS1"
-        )
-        self.bash_path = "C:/Program Files/Git/bin/bash.exe"
+        self.target_directory = r"F:\Projects\RealityProjects\DeployAppByCloudAWS"
+        self.bash_path = "C:/Git_Py_Setup/Git/Git/bin/bash.exe"
 
     def run_command(self, command):
         try:
@@ -65,3 +62,24 @@ class ServiceRunCmd:
             "-i", service_id
         ]
         return self.run_command(command)
+    
+    def disable_service(self, type_service, service_id):
+        command = [self.bash_path] + [
+            f"terraform/scripts/query/{type_service}/stop_service.sh",
+            "-i", service_id
+        ]
+        return self.run_command(command=command)
+    
+    def enable_service(self, type_service, service_id):
+        command = [self.bash_path] + [
+            f"terraform/scripts/query/{type_service}/load_service.sh",
+            "-i", service_id
+        ]
+        return self.run_command(command=command)
+    
+    def get_importance_data_service(self, type_service, service_id):
+        command = [self.bash_path] + [
+            f"terraform/scripts/query/{type_service}/get_importance_data.sh",
+            "-i", service_id
+        ]
+        return self.run_command(command=command)

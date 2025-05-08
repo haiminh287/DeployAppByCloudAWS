@@ -9,6 +9,8 @@ import os
 from flask_login import current_user
 from deploy_service import DeployService
 import utils
+import json
+from typing import Callable
 
 
 @app.route('/')
@@ -113,7 +115,7 @@ def host_service(block_id):
         ec2_type = EC2Type(ec2_type)
         vm_type = VMTypeEnum(vm_type)
         load_balancer_counter = int(request.form.get('load_balancer_count', 0))
-        tfvars_host_path = r"C:\Users\MINH\Documents\Zalo_Received_Files\MyTFAWS1\service_tfvars\host.tfvars"
+        tfvars_host_path = r"F:\Projects\RealityProjects\DeployAppByCloudAWS\service_tfvars\host.tfvars"
         deploy_main_service = DeployService(block_id)
         if load_balancer_counter == 0:
             updates_new = {
@@ -125,7 +127,7 @@ def host_service(block_id):
                 block_id=block_id, vm_type=vm_type)
             status_message = "Đang tạo dịch vụ Host, vui lòng đợi..."
         else:
-            tfvars_lb_path = r"C:\Users\MINH\Documents\Zalo_Received_Files\MyTFAWS1\service_tfvars\lb.tfvars"
+            tfvars_lb_path = r"F:\Projects\RealityProjects\DeployAppByCloudAWS\service_tfvars\lb.tfvars"
             host_ports = []
             rules = []
             for i in range(load_balancer_counter):
@@ -166,12 +168,48 @@ def delete_host_service(host_service_id):
 
 @app.route('/host-services/<int:host_service_id>/state', methods=['POST'])
 def get_state_host_service(host_service_id):
-    service = dao.get_service_by_id("host", host_service_id)
-    deploy_main_service = DeployService(service.block_id)
-    if request.method.__eq__('POST'):
-        state = deploy_main_service.get_state("host", service.service_id)
-        dao.updateState("host", state)
-        return jsonify({"status": "success", "state": state})
+    def update_exec(old_obj: any, 
+                    service_id : int, 
+                    type_service: str, 
+                    obj: dict) -> any:
+        old_obj.public_ip=obj.get("publicIP")
+
+        if not dao.update_service_by_id(type_service, service_id, obj):
+            raise Exception("update service obj is error")
+
+    return get_state_service(
+        service_id=host_service_id,
+        type_service="host",
+        get_state_exec_structure=get_and_update_status_for_service_mixin,
+        update_exec_structure=update_exec
+    )
+    
+
+@app.route('/host-services/<int:host_service_id>/disable', methods=['POST'])
+def disable_host_service(host_service_id):
+    def update_exec(old_obj: any, 
+                    service_id : int, 
+                    type_service: str, 
+                    obj: dict) -> any:
+        old_obj.public_ip=obj.get("publicIP")
+
+        if not dao.update_service_by_id(type_service, service_id, obj):
+            raise Exception("update service obj is error")
+    
+    return disable_service(
+        service_id=host_service_id,
+        type_service="host",
+        disable_exec_structure=get_and_update_status_for_service_mixin,
+        update_exec_structure=update_exec
+    )
+    
+@app.route('/host-services/<int:host_service_id>/enable', methods=['POST'])
+def enable_host_service(host_service_id):
+    return enable_service(
+        service_id=host_service_id,
+        type_service="host",
+        enable_exec_structure=get_and_update_status_for_service_mixin
+    )
 
 
 @app.route('/blocks/<int:block_id>/host-services-form', methods=['GET'])
@@ -196,7 +234,7 @@ def rds_service(block_id):
         type_database = request.form.get('type_database')
         type_database = TypeDatabaseEnum(type_database)
 
-        tfvars_rds_path = r"C:\Users\MINH\Documents\Zalo_Received_Files\MyTFAWS1\service_tfvars\rds.tfvars"
+        tfvars_rds_path = r"F:\Projects\RealityProjects\DeployAppByCloudAWS\service_tfvars\rds.tfvars"
         updates_new = {
             "db_name": database_name,
             "user_name": username,
@@ -226,12 +264,139 @@ def delete_rds_service(rds_service_id):
 
 @app.route('/rds-services/<int:rds_service_id>/state', methods=['POST'])
 def get_state_rds_service(rds_service_id):
-    service = dao.get_service_by_id("rds", rds_service_id)
+    def update_exec(old_obj: any, 
+                    service_id : int, 
+                    type_service: str, 
+                    obj: dict) -> any:
+        old_obj.url_host = obj.get("endpoint").get("Address")
+        old_obj.port = obj.get("endpoint").get("Port")
+
+        if not dao.update_service_by_id(type_service, service_id, obj):
+            raise Exception("update service obj is error")
+    
+    return get_state_service(
+        service_id=rds_service_id,
+        type_service="rds",
+        get_state_exec_structure=get_and_update_status_for_service_mixin,
+        update_exec_structure=update_exec
+    )
+    
+@app.route('/rds-services/<int:rds_service_id>/disable', methods=['POST'])
+def disable_rds_service(rds_service_id):
+    def update_exec(old_obj: any, 
+                    service_id : int, 
+                    type_service: str, 
+                    obj: dict) -> any:
+        old_obj.url_host = obj.get("endpoint").get("Address")
+        old_obj.port = obj.get("endpoint").get("Port")
+
+        if not dao.update_service_by_id(type_service, service_id, obj):
+            raise Exception("update service obj is error")
+    
+    return disable_service(
+        service_id=rds_service_id,
+        type_service="rds",
+        disable_exec_structure=get_and_update_status_for_service_mixin,
+        update_exec_structure=update_exec
+    )
+    
+@app.route('/rds-services/<int:rds_service_id>/enable', methods=['POST'])
+def enable_rds_service(rds_service_id):
+    return enable_service(
+        service_id=rds_service_id,
+        type_service="rds",
+        enable_exec_structure=get_and_update_status_for_service_mixin
+    )
+
+#func mixin.
+
+def get_and_update_status_for_service_mixin(service_id: int,
+                                            type_service: str, 
+                                            obj:dict) -> str:
+    state = dict.get("status")
+
+    print("current_state:" + state)
+
+    if not dao.updateState(type_service, service_id, state):
+        raise Exception("update status is error")
+    pass
+    
+def enable_service(service_id: int, type_service: str, 
+                #    data_structure: Callable[[DeployService, Callable, Callable], any], 
+                   enable_exec_structure: Callable[[int, str, dict], str]):
+    service = dao.get_service_by_id(type_service, service_id)
     deploy_main_service = DeployService(service.block_id)
-    if request.method.__eq__('POST'):
-        state = deploy_main_service.get_state("rds", service.service_id)
-        dao.updateState("rds", state)
+    if request.method.__eq__('POST') and service:
+        msg = ""
+
+        state = "empty"
+        state_obj = deploy_main_service.enable_service(type_service, service.service_id)[0]
+        try:
+            state= enable_exec_structure(service_id, type_service, state_obj)
+        except Exception as ex:
+            msg = "update state for service is error"
+
+        if msg == "":
+            return jsonify({"status": "fail", "state": "error", "msg": msg})
+        
         return jsonify({"status": "success", "state": state})
+    pass
+
+def get_state_service(service_id: int, type_service: str, 
+                #    data_structure: Callable[[DeployService, Callable, Callable], any], 
+                   get_state_exec_structure: Callable[[int, str, dict], str],
+                   update_exec_structure: Callable[[any, int, str, dict], any]):
+    service = dao.get_service_by_id(type_service, service_id)
+    deploy_main_service = DeployService(service.block_id)
+    if request.method.__eq__('POST') and service:
+        msg = ""
+
+        state = "empty"
+        state_obj = deploy_main_service.get_state(type_service, service.service_id)[0]
+        try:
+            state= get_state_exec_structure(service_id, type_service, state_obj)
+        except Exception as ex:
+            msg = "update state for service is error"
+
+        im_data = deploy_main_service.get_importance_data_service(type_service, service.service_id)[0]
+        try:
+            update_exec_structure(service, service_id, type_service, im_data)
+        except Exception as ex:
+            msg = "update service object for host is error"
+
+        if msg == "":
+            return jsonify({"status": "fail", "state": "error", "msg": msg})
+        
+        return jsonify({"status": "success", "state": state})
+    pass
+
+def disable_service(service_id: int, type_service: str, 
+                #    data_structure: Callable[[DeployService, Callable, Callable], any], 
+                   disable_exec_structure: Callable[[int, str, dict], str],
+                   update_exec_structure: Callable[[any, int, str, dict], any]):
+    service = dao.get_service_by_id(type_service, service_id)
+    deploy_main_service = DeployService(service.block_id)
+    if request.method.__eq__('POST') and service:
+        msg = ""
+
+        state = "empty"
+        state_obj = deploy_main_service.disable_service(type_service, service.service_id)[0]
+        try:
+            state= disable_exec_structure(service_id, type_service, state_obj)
+        except Exception as ex:
+            msg = "update state for service is error"
+
+        im_data = deploy_main_service.get_importance_data_service(type_service, service.service_id)[0]
+        try:
+            update_exec_structure(service, service_id, type_service, im_data)
+        except Exception as ex:
+            msg = "update service object for host is error"
+
+        if msg == "":
+            return jsonify({"status": "fail", "state": "error", "msg": msg})
+        
+        return jsonify({"status": "success", "state": state})
+    pass
 
 
 @login.user_loader

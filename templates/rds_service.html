@@ -45,6 +45,18 @@
         >
           Cancle
         </button>
+        <button
+          class="btn btn-primary btn-sm btn-danger"
+          onclick="onDisableState('rds', {{ rds_service.id }})"
+        >
+          Disable
+        </button>
+        <button
+          class="btn btn-primary btn-sm btn-danger"
+          onclick="onEnableState('rds', {{ rds_service.id }})"
+        >
+          Enable
+        </button>
       </td>
     </tr>
     {% endfor %}

@@ -179,3 +179,51 @@ function onLoadState(type_service, id) {
       }
     });
 }
+
+function onDisableState(type_service, id) {
+  const loadingElement = document.createElement("div");
+  loadingElement.textContent = "service is disabling...";
+  loadingElement.id = "loading";
+  document.body.appendChild(loadingElement);
+  fetch(`/${type_service}-services/${id}/disable`, {
+    method: "post",
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data.state[0]);
+      const loading = document.getElementById("loading");
+      if (loading) {
+        loading.remove();
+      }
+      if (data.status == "success") {
+        document.querySelector(".state").textContent = data.state;
+        // window.location.reload();
+      } else {
+        alert("Fail");
+      }
+    });
+}
+
+function onEnableState(type_service, id) {
+  const loadingElement = document.createElement("div");
+  loadingElement.textContent = "service is disabling...";
+  loadingElement.id = "loading";
+  document.body.appendChild(loadingElement);
+  fetch(`/${type_service}-services/${id}/enable`, {
+    method: "post",
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data.state[0]);
+      const loading = document.getElementById("loading");
+      if (loading) {
+        loading.remove();
+      }
+      if (data.status == "success") {
+        document.querySelector(".state").textContent = data.state;
+        // window.location.reload();
+      } else {
+        alert("Fail");
+      }
+    });
+}

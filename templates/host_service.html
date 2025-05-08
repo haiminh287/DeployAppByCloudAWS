@@ -46,6 +46,18 @@
         >
           Cancle
         </button>
+        <button
+          class="btn btn-primary btn-sm btn-danger"
+          onclick="onDisableState('host', {{ service.id }})"
+        >
+          Disable
+        </button>
+        <button
+          class="btn btn-primary btn-sm btn-danger"
+          onclick="onEnableState('host', {{ service.id }})"
+        >
+          Enable
+        </button>
       </td>
     </tr>
     {% endfor %}
